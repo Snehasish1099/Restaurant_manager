@@ -1,0 +1,8 @@
+# dependencies
+/node_modules
+.env
+.myenv
+
+# Ignore Python cache files
+__pycache__/
+*.pyc
