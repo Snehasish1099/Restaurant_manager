@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 import logger from 'redux-logger'
-import demoSlice from './demoSlice';
+// import demoSlice from './demoSlice';
+import reducerSlice from '../containers/reducerSlice';
 
 export default configureStore({
   reducer: {
-    demo: demoSlice
+    // demo: demoSlice
+    dataReducer: reducerSlice
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });
