@@ -2,6 +2,9 @@ import React, { useEffect } from 'react'
 import Header from '../common/layout/Header'
 import Footer from '../common/layout/Footer'
 import { LandingPageHooks } from '../containers/hooks'
+import Banner from './Banner'
+import LandingMenuItems from './LandingMenuItems'
+import LandingRestaurantPage from './LandingRestaurantPage'
 
 const LandingPage = () => {
   const { getRestaurantsApiCall, getMenuApiCall } = LandingPageHooks()
@@ -14,7 +17,9 @@ const LandingPage = () => {
   return (
     <div>
       <Header />
-      LandingPage
+      <Banner/>
+      <LandingMenuItems/>
+      <LandingRestaurantPage/>
       <Footer />
     </div>
   )

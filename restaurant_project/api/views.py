@@ -24,7 +24,7 @@ class StandardResponseMixin:
                     "status": status.HTTP_404_NOT_FOUND,
                     "error": True,
                     "data": [],
-                    "message": "No records found."
+                    "message": "No data found."
                 },
                 status=status.HTTP_404_NOT_FOUND
             )
@@ -35,7 +35,7 @@ class StandardResponseMixin:
                 "status": status.HTTP_200_OK,
                 "error": False,
                 "data": serializer.data,
-                "message": "Data retrieved successfully."
+                "message": "Data available."
             },
             status=status.HTTP_200_OK
         )
@@ -46,23 +46,33 @@ class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     permission_classes = [AllowAny]
     serializer_class = UserSerializer
+    
+    def create(self, request, *args, **kwargs):
+        response = super().create(request, *args, **kwargs)
+        user = User.objects.get(username=response.data["username"])
+        token, _ = Token.objects.get_or_create(user=user)
+        return Response({"user": response.data, "token": token.key}, status=status.HTTP_201_CREATED)
 
 
 # User Login (Token-Based)
 class LoginView(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
-        response = super().post(request, *args, **kwargs)
-        user = self.get_serializer().validate(request.data)['user']
+        serializer = self.get_serializer(data=request.data, context={"request": request})
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data["user"]
         token, _ = Token.objects.get_or_create(user=user)
-        return Response({'token': token.key})
+        return Response({"token": token.key})
 
 
 # User Logout - Delete Token
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def logout_view(request):
-    request.auth.delete()  # Deletes the user's token
-    return Response({"message": "Successfully logged out"}, status=status.HTTP_200_OK)
+    try:
+        request.auth.delete()  # Deletes the token
+        return Response({"message": "Successfully logged out"}, status=status.HTTP_200_OK)
+    except AttributeError:
+        return Response({"error": "Invalid token or already logged out"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 # Viewsets
