@@ -10,7 +10,7 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from .models import Customer, MenuItem, Order, Restaurant
 from .serializers import (
     CustomerSerializer, MenuItemSerializer, OrderSerializer, 
-    RestaurantSerializer, UserSerializer
+    RestaurantSerializer, UserSerializer, ProfileSerializer
 )
 
 
@@ -51,7 +51,7 @@ class RegisterView(generics.CreateAPIView):
         response = super().create(request, *args, **kwargs)
         user = User.objects.get(username=response.data["username"])
         token, _ = Token.objects.get_or_create(user=user)
-        return Response({"user": response.data, "token": token.key}, status=status.HTTP_201_CREATED)
+        return Response({"user": response.data, 'status': status.HTTP_201_CREATED, "token": token.key}, status=status.HTTP_201_CREATED)
 
 
 # User Login (Token-Based)
@@ -61,7 +61,7 @@ class LoginView(ObtainAuthToken):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data["user"]
         token, _ = Token.objects.get_or_create(user=user)
-        return Response({"token": token.key})
+        return Response({"token": token.key, 'status': status.HTTP_200_OK}, status=status.HTTP_200_OK)
 
 
 # User Logout - Delete Token
