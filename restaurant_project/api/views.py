@@ -10,7 +10,7 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from .models import Customer, MenuItem, Order, Restaurant
 from .serializers import (
     CustomerSerializer, MenuItemSerializer, OrderSerializer, 
-    RestaurantSerializer, UserSerializer, ProfileSerializer
+    RestaurantSerializer, ProfileSerializer
 )
 
 
@@ -45,7 +45,7 @@ class StandardResponseMixin:
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     permission_classes = [AllowAny]
-    serializer_class = UserSerializer
+    serializer_class = ProfileSerializer
     
     def create(self, request, *args, **kwargs):
         response = super().create(request, *args, **kwargs)
@@ -73,6 +73,17 @@ def logout_view(request):
         return Response({"message": "Successfully logged out"}, status=status.HTTP_200_OK)
     except AttributeError:
         return Response({"error": "Invalid token or already logged out"}, status=status.HTTP_400_BAD_REQUEST)
+
+class UserProfileListView(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = ProfileSerializer
+    # permission_classes = [IsAuthenticated]
+    
+class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = ProfileSerializer
+    # permission_classes = [IsAuthenticated]
+    lookup_field = 'id'
 
 
 # Viewsets
