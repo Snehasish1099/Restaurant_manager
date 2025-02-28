@@ -5,4 +5,5 @@ node_modules/
 
 # Ignore Python cache files
 __pycache__/
-*.pyc
+*.pycfrontend/node_modules/.cache/
+restaurant_project/**/__pycache__/
