@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.user.username + ' Profile'
@@ -12,12 +13,14 @@ class Profile(models.Model):
 class Restaurant(models.Model):
     name = models.CharField(max_length=100)
     address = models.CharField(max_length=100)
+    image = models.ImageField(upload_to='images/', blank=True, null=True)
 
     def __str__(self):
         return self.name
 
 class MenuItem(models.Model):
     name = models.CharField(max_length=100)
+    image = models.ImageField(upload_to='images/')
     description = models.TextField()
     price = models.DecimalField(max_digits=8, decimal_places=2)
     restaurant = models.ForeignKey(Restaurant, related_name='menu_items', on_delete=models.CASCADE)
