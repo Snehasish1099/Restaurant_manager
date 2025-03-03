@@ -6,6 +6,7 @@ import ButtonField from '../../common/formfields/ButtonField';
 import { Icon, IconButton, InputAdornment } from '@mui/material';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { useNavigate } from 'react-router';
 
 const Register = (props) => {
 
@@ -23,12 +24,13 @@ const Register = (props) => {
 
   const [showPassword, setShowPassword] = useState(true)
   const [showCPassword, setShowCPassword] = useState(true)
+  const navigate = useNavigate()
 
   return (
     <div className="max-w-md mx-auto bg-white p-4 rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold my-4 text-center">Register</h2>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <h2 className="text-2xl font-bold my-4 text-center">{"Register"}</h2>
 
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 my-4">
         <div>
           <Controller name={"userName"}
             control={control}
@@ -55,7 +57,7 @@ const Register = (props) => {
           )}
         </div>
 
-        <div>
+        <div className=''>
           <Controller name={"phone_number"}
             control={control}
             render={({ field: { onChange, value }, fieldState: { error } }) => {
@@ -64,6 +66,7 @@ const Register = (props) => {
                   defaultCountry={'us'}
                   placeholder={'*Enter Phone no'}
                   label={'*Enter Phone Number'}
+                  containerClass={'w-full'}
                   extraCls={`w-full text-sm mt-[0.45rem]`}
                   inputCls={`w-full h-[3.3rem] cursor-default`}
                   onChange={(value) => { onChange(value) }}
@@ -190,6 +193,7 @@ const Register = (props) => {
 
         <ButtonField
           type='submit'
+          variant={'outlined'}
           buttonName={"Register"}
           buttonextracls={`px-2 py-2 text-white ${props.loading === true && 'bg-grey-300'} bg-orange-600 text-sm w-1/2 hover:bg-blue-400 hover:text-black`}
           loading={props.loading}
@@ -197,6 +201,8 @@ const Register = (props) => {
           onClick={handleSubmit(onSubmit)}
         />
       </form>
+      
+      <p className='text-black text-xs'>{"Already have an account?"}&nbsp;<span onClick={() => navigate('/login')} className='text-blue-600 cursor-pointer underline'>{"Login"}</span></p>
     </div>
   )
 }
