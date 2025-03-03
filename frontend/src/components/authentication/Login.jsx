@@ -15,9 +15,9 @@ const LoginPage = (props) => {
 
     return (
         <div className={`bg-white flex items-center justify-center w-full`}>
-            <div className={`p-4 border border-purple-700`} style={{ width: '40%', marginTop: '8%' }}>
+            <div className={`p-4 border rounded-lg shadow-md`} style={{ width: '40%', marginTop: '8%' }}>
                 <div className={`flex items-center flex-col justify-between gap-5 w-full`}>
-                    {/* <img src={""} alt='logo' onClick={() => navigate('/')} className={`cursor-pointer h-14 w-28`} /> */}
+                    <img src={""} alt='logo' onClick={() => navigate('/')} className={`cursor-pointer h-14 w-28`} />
                     <div className={`flex flex-col gap-1`}>
                         <p className='text-black text-xl'>{"Welcome Back"}</p>
                     </div>
