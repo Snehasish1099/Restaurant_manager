@@ -6,7 +6,7 @@ import NoContentPage from './layout/NoContentPage';
 const CommonCard = (props) => {
 
     return (
-        <div className={`border w-full rounded-md bg-white shadow shadow-gray-500/20 group/item mb-5 duration-500 ${props.extracls} cursor-pointer min-h-[20em]`}>
+        <div className={`border w-full rounded-md bg-white shadow shadow-gray-500/20 group/item mb-5 duration-500 ${props.extracls} cursor-pointer min-h-[20em]`} onClick={props.cardOnClick}>
 
             {props.img ? (
                 <img src={props.img} alt='img' />

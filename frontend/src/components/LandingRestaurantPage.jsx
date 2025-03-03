@@ -5,8 +5,10 @@ import biriyani from '../images/biriyani.jpeg'
 import chowmin from '../images/chowmin.jpeg'
 import chicken_tandoori from '../images/chicken_tandoori.jpeg'
 import fried_rice from '../images/fried_rice.jpeg'
+import { useNavigate } from 'react-router'
 
 const LandingRestaurantPage = () => {
+  const navigate = useNavigate()
 
   const dummyData = [
     {
@@ -86,6 +88,7 @@ const LandingRestaurantPage = () => {
               text1={"Very good"}
               showamount
               amount={foodName?.price}
+              cardOnClick={() => navigate(`/restaurant_details/${idx+1}`)}
             />
           </div>
         )}
