@@ -30,15 +30,8 @@ class MenuItem(models.Model):
     def __str__(self):
         return self.name
 
-class Customer(models.Model):
-    name = models.CharField(max_length=100)
-    address = models.CharField(max_length=200)
-
-    def __str__(self):
-        return self.name
-
 class Order(models.Model):
-    customer = models.ForeignKey(Customer, related_name='orders', on_delete=models.CASCADE)
+    customer = models.ForeignKey(Profile, related_name='orders', on_delete=models.CASCADE)
     items = models.ManyToManyField(MenuItem, related_name='orders')
     total_price = models.DecimalField(max_digits=8, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
