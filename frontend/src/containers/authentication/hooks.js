@@ -1,8 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { doPostApiCall } from "../../utils/ApiConfig";
+import { doGetApiCall, doPostApiCall } from "../../utils/ApiConfig";
+import { useDispatch } from "react-redux";
+import { allUsersReducer, userDetailsReducer } from "./authReducer";
 
 export const AuthHooks = () => {
+
+    const dispatch = useDispatch()
 
     const [name, setName] = useState('')
     const [password, setPassword] = useState('')
@@ -39,7 +43,7 @@ export const AuthHooks = () => {
         if (res?.status === 201) {
             navigate('/login')
         } else {
-
+            console.log("# Registration failed")
         }
     }
 
@@ -58,6 +62,7 @@ export const AuthHooks = () => {
         // console.log(res, '# res login')
         if (res?.status === 200) {
             localStorage.setItem('token', res?.token)
+            localStorage.setItem('userId', res?.userId)
             navigate('/')
         } else {
             setLoginError({
@@ -68,20 +73,37 @@ export const AuthHooks = () => {
         }
     }
 
-    // const logoutApiCall = async () => {
+    /**
+     * @method GET
+     * @description
+     */
+    const getAllUsersApiCall = async () => {
+        let data = {
+            url: `${process.env.REACT_APP_BASE_URL}/users/`,
+        }
+        let res = await doGetApiCall(data)
+        if (res?.status === 200) {
+            dispatch(allUsersReducer(res?.data))
+        } else {
+            dispatch(allUsersReducer([]))
+        }
+    }
 
-    //     if (!localStorage.getItem("token")) {
-    //         console.error("No token found. User may already be logged out.");
-    //         return;
-    //     }
-
-    //     let data = {
-    //         url: `${process.env.REACT_APP_BASE_URL}/logout/`,
-    //         bodyData: null
-    //     }
-    //     let res = await doPostApiCall(data)
-    //     console.log(res, "# logout res")
-    // }
+    /**
+     * @method GET
+     * @description
+     */
+    const getUserByIdApiCall = async (userId) => {
+        let data = {
+            url: `${process.env.REACT_APP_BASE_URL}/users/${userId}/`,
+        }
+        let res = await doGetApiCall(data)
+        if (res?.status === 200) {
+            dispatch(userDetailsReducer(res?.data))
+        } else {
+            dispatch(userDetailsReducer(null))
+        }
+    }
 
     return {
         handleName,
@@ -89,6 +111,9 @@ export const AuthHooks = () => {
         loginError,
         Login,
         // logoutApiCall,
-        RegistrationApiCall
+        RegistrationApiCall,
+
+        getAllUsersApiCall,
+        getUserByIdApiCall
     }
 }

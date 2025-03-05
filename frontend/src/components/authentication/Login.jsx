@@ -1,13 +1,13 @@
 import { ClickAwayListener } from '@mui/material';
 import React, { useState } from 'react'
-// import { useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import TextFieldInput from '../../common/formfields/TextFieldInput';
 import ButtonField from '../../common/formfields/ButtonField'
 
 const LoginPage = (props) => {
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
     const [mailFocused, setMailFocused] = useState(false)
     const [passwordFocused, setPasswordFocused] = useState(false)
@@ -15,12 +15,11 @@ const LoginPage = (props) => {
 
     return (
         <div className={`bg-white flex items-center justify-center w-full`}>
-            <div className={`p-4 border border-purple-700`} style={{ width: '40%', marginTop: '8%' }}>
-                {/* login Welcome msg  */}
+            <div className={`p-4 border rounded-lg shadow-md`} style={{ width: '40%', marginTop: '8%' }}>
                 <div className={`flex items-center flex-col justify-between gap-5 w-full`}>
-                    {/* <img src={""} alt='logo' onClick={() => navigate('/')} className={`cursor-pointer h-14 w-28`} /> */}
+                    <img src={""} alt='logo' onClick={() => navigate('/')} className={`cursor-pointer h-14 w-28`} />
                     <div className={`flex flex-col gap-1`}>
-                        <p className='text-black text-[15px]'>{"Enter Details"}</p>
+                        <p className='text-black text-xl'>{"Welcome Back"}</p>
                     </div>
                 </div>
                 {/* input fields */}
@@ -28,7 +27,7 @@ const LoginPage = (props) => {
                     <ClickAwayListener onClickAway={() => setMailFocused(false)}>
                         <div onClick={() => setMailFocused(true)} className='w-1/2'>
                             <TextFieldInput
-                                handelChange={(e) => props.setName(e)}
+                                handleChange={(e) => props.setName(e)}
                                 floatingLabel={"Username"}
                                 focused={mailFocused}
                                 onKeyPress={props.Login}
@@ -42,7 +41,7 @@ const LoginPage = (props) => {
                         <div onClick={() => setPasswordFocused(true)} className='w-1/2'>
                             <TextFieldInput
                                 typePassword={showPasswoard}
-                                handelChange={(e) => props.setPassword(e)}
+                                handleChange={(e) => props.setPassword(e)}
                                 floatingLabel={passwordFocused === true ? '*Password' : null}
                                 focused={passwordFocused}
                                 onKeyPress={props.Login}
@@ -73,6 +72,8 @@ const LoginPage = (props) => {
                     />
                     {/* For showing the error message if login isnt't successful  */}
                     {props?.loginError?.error === true && <p className={`text-red-5 text-sm text-center`}>{props?.loginError?.message}</p>}
+
+                    <p className='text-black text-xs'>{"Don't have an account?"}&nbsp;<span onClick={() => navigate('/register')} className='text-blue-600 cursor-pointer underline'>{"Register"}</span></p>
                 </div>
             </div>
 

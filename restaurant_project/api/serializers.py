@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Restaurant, MenuItem, Customer, Order
+from .models import Restaurant, MenuItem, Order
 from django.contrib.auth.models import User
 from .models import Profile
 from django.contrib.auth import get_user_model
@@ -47,11 +47,6 @@ class RestaurantSerializer(serializers.ModelSerializer):
 class MenuItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = MenuItem
-        fields = '__all__'
-
-class CustomerSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Customer
         fields = '__all__'
 
 class OrderSerializer(serializers.ModelSerializer):

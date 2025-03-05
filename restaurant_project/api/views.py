@@ -7,9 +7,9 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 
-from .models import Customer, MenuItem, Order, Restaurant
+from .models import MenuItem, Order, Restaurant
 from .serializers import (
-    CustomerSerializer, MenuItemSerializer, OrderSerializer, 
+    MenuItemSerializer, OrderSerializer, 
     RestaurantSerializer, ProfileSerializer
 )
 
@@ -61,7 +61,7 @@ class LoginView(ObtainAuthToken):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data["user"]
         token, _ = Token.objects.get_or_create(user=user)
-        return Response({"token": token.key, 'status': status.HTTP_200_OK}, status=status.HTTP_200_OK)
+        return Response({"token": token.key, 'status': status.HTTP_200_OK, "userId": user.id}, status=status.HTTP_200_OK)
 
 
 # User Logout - Delete Token
@@ -87,12 +87,6 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 
 # Viewsets
-class CustomerView(StandardResponseMixin, viewsets.ModelViewSet):
-    queryset = Customer.objects.all()
-    serializer_class = CustomerSerializer
-    permission_classes = [IsAuthenticated]
-
-
 class MenuView(StandardResponseMixin, viewsets.ModelViewSet):
     queryset = MenuItem.objects.all()
     serializer_class = MenuItemSerializer
