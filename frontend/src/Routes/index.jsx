@@ -6,6 +6,8 @@ import LoginIndex from '../containers/authentication/LoginIndex';
 import RegistrationIndex from '../containers/authentication/RegistrationIndex';
 import FoodItemDetailsPage from '../components/FoodItemDetailsPage';
 import RestaurantDetailsPage from '../components/RestaurantDetailsPage';
+import Header from '../common/layout/Header';
+import UserProfilePage from '../components/user/UserProfilePage';
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -15,6 +17,9 @@ const router = createBrowserRouter(
             <Route path='register' element={<RegistrationIndex />} />
             <Route path='/food_item_details/:id' element={<FoodItemDetailsPage />} />
             <Route path='/restaurant_details/:id' element={<RestaurantDetailsPage />} />
+            <Route path='/user_profile/:id'>
+                <Route index element={<UserProfilePage/>}/>
+            </Route>
         </Route>
     )
 )

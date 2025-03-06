@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { doGetApiCall, doPostApiCall } from "../../utils/ApiConfig";
+import { doGetApiCall, doPostApiCall, doPutApiCall } from "../../utils/ApiConfig";
 import { useDispatch } from "react-redux";
 import { allUsersReducer, userDetailsReducer } from "./authReducer";
 
@@ -63,7 +63,8 @@ export const AuthHooks = () => {
         if (res?.status === 200) {
             localStorage.setItem('token', res?.token)
             localStorage.setItem('userId', res?.userId)
-            navigate('/')
+            getUserByIdApiCall(res?.userId)
+            navigate(`/user_profile/${res?.userId}`)
         } else {
             setLoginError({
                 code: "",
@@ -75,7 +76,7 @@ export const AuthHooks = () => {
 
     /**
      * @method GET
-     * @description
+     * @description - gets all the registered data
      */
     const getAllUsersApiCall = async () => {
         let data = {
@@ -83,7 +84,8 @@ export const AuthHooks = () => {
         }
         let res = await doGetApiCall(data)
         if (res?.status === 200) {
-            dispatch(allUsersReducer(res?.data))
+            const newData = res?.data?.filter((user) => user?.id !== 1)     // To filter the data without admin data, might need to modify further later on
+            dispatch(allUsersReducer(newData))
         } else {
             dispatch(allUsersReducer([]))
         }
@@ -91,14 +93,36 @@ export const AuthHooks = () => {
 
     /**
      * @method GET
-     * @description
+     * @description - gets user details by id
      */
     const getUserByIdApiCall = async (userId) => {
         let data = {
             url: `${process.env.REACT_APP_BASE_URL}/users/${userId}/`,
         }
         let res = await doGetApiCall(data)
+        console.log(res, '# res')
         if (res?.status === 200) {
+            dispatch(userDetailsReducer(res?.data))
+        } else {
+            dispatch(userDetailsReducer(null))
+        }
+    }
+
+    /**
+     * @method PUT
+     * @description - Updates the details of an registered user
+     */
+    const updateUserByIdApiCall = async (formData, userId) => {
+        let data = {
+            url: `${process.env.REACT_APP_BASE_URL}/users/${userId}/`,
+            bodyData: {
+                username: formData?.userName,
+                phone_number: formData?.phone_number,
+                address: formData?.address,
+            }
+        }
+        let res = await doPutApiCall(data)
+        if (res?.status === 201) {
             dispatch(userDetailsReducer(res?.data))
         } else {
             dispatch(userDetailsReducer(null))
@@ -114,6 +138,7 @@ export const AuthHooks = () => {
         RegistrationApiCall,
 
         getAllUsersApiCall,
-        getUserByIdApiCall
+        getUserByIdApiCall,
+        updateUserByIdApiCall
     }
 }

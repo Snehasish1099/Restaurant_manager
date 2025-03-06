@@ -1,6 +1,6 @@
 import { doGetApiCall, doPostApiCall, doPutApiCall } from '../utils/ApiConfig'
 import { useDispatch } from 'react-redux'
-import { menuGetReducer, orderGetReducer, restaurantGetReducer, singleOrderGetReducer, singleRestaurantReducer } from './reducerSlice'
+import { menuGetReducer, orderGetReducer, restaurantGetReducer, singleMenuItemReducer, singleOrderGetReducer, singleRestaurantReducer } from './reducerSlice'
 
 export const LandingPageHooks = () => {
     const dispatch = useDispatch()
@@ -27,35 +27,46 @@ export const LandingPageHooks = () => {
     * @method POST
     * @description - Create new Restaurant data
     */
-    const createRestaurantApiCall = async (formData) => {
-        let data = {
-            url: `${process.env.REACT_APP_BASE_URL}/restaurants/`,
-            bodyData: {
-                name: formData?.name,
-                address: formData?.addresss,
-                // image: 
-            }
-        }
-        let res = await doPostApiCall(data)
-        console.log(res, "# post rest res")
-    }
+    // const createRestaurantApiCall = async (formData) => {
+    //     let data = {
+    //         url: `${process.env.REACT_APP_BASE_URL}/restaurants/`,
+    //         bodyData: {
+    //             name: formData?.name,
+    //             address: formData?.addresss,
+    //             // image: 
+    //         }
+    //     }
+    //     let res = await doPostApiCall(data)
+    //     console.log(res, "# post rest res")
+    //     if (res?.status === 201) {
+    //         getRestaurantsApiCall()
+    //     } else {
+
+    //     }
+    // }
 
     /**
     * @method PUT
     * @description - Update Restaurant data by id
     */
-    const updateRestaurantApiCall = async (formData, id) => {
-        let data = {
-            url: `${process.env.REACT_APP_BASE_URL}/restaurants/${id}/`,
-            bodyData: {
-                name: formData?.name,
-                address: formData?.addresss,
-                // image: 
-            }
-        }
-        let res = await doPutApiCall(data)
-        console.log(res, "# put rest res")
-    }
+    // const updateRestaurantApiCall = async (formData, id) => {
+    //     let data = {
+    //         url: `${process.env.REACT_APP_BASE_URL}/restaurants/${id}/`,
+    //         bodyData: {
+    //             name: formData?.name,
+    //             address: formData?.addresss,
+    //             // image: 
+    //         }
+    //     }
+    //     let res = await doPutApiCall(data)
+    //     console.log(res, "# put rest res")
+    //     if (res?.status === 201) {
+    //         getSingleRestaurantsApiCall(id)
+    //         getRestaurantsApiCall()
+    //     } else {
+
+    //     }
+    // }
 
     /**
      * @method GET
@@ -91,7 +102,41 @@ export const LandingPageHooks = () => {
         }
     }
 
+    /**
+   * @method GET
+   * @description - Gets menu items by id
+   */
+    const getMenuByIdApiCall = async (id) => {
+        let data = {
+            url: `${process.env.REACT_APP_BASE_URL}/menu/${id}/`,
+        }
+        let res = await doGetApiCall(data)
+        if (res?.status === 200) {
+            dispatch(singleMenuItemReducer(res?.data))
+        } else {
+            dispatch(singleMenuItemReducer(null))
+        }
+    }
+
     // ------------------------------------------- Orders ---------------------------------------------
+
+    const createOrderApiCall = async (formData) => {
+        let data = {
+            url: `${process.env.REACT_APP_BASE_URL}/restaurants/`,
+            bodyData: {
+                items: formData?.items,
+                total_price: formData?.total_price,
+                customer: localStorage.getItem('userId')
+            }
+        }
+        let res = await doPostApiCall(data)
+        console.log(res, "# post order res")
+        if (res?.status === 200) {
+            getOrdersApiCall()
+        } else {
+
+        }
+    }
 
     /**
      * @method GET
@@ -127,13 +172,15 @@ export const LandingPageHooks = () => {
 
     return {
         getRestaurantsApiCall,
-        createRestaurantApiCall,
-        updateRestaurantApiCall,
+        // createRestaurantApiCall,
+        // updateRestaurantApiCall,
         getSingleRestaurantsApiCall,
 
         getMenuApiCall,
+        getMenuByIdApiCall,
 
         getOrdersApiCall,
         getSingleOrdersApiCall,
+        createOrderApiCall,
     }
 }
