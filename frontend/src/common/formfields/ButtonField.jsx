@@ -26,7 +26,7 @@ function ButtonField(props) {
 						{props.img && (
 							<img src={props.img} alt={props.alt} className={"hover:visible"}/>
 						)}
-						<p className={`${props.buttonnamecls}`}>{props.buttonName}</p>
+						<p>{props.buttonName}</p>
 					</div>
 				)}
 			</Button>
@@ -44,7 +44,6 @@ ButtonField.propTypes = {
 	disabled: PropTypes.bool,
 	img: PropTypes.string,
 	alt: PropTypes.string,
-	buttonnamecls: PropTypes.string,
 	buttonName: PropTypes.string,
 	startIcon: PropTypes.node,
 	buttonInsidecls: PropTypes.string

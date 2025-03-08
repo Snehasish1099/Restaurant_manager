@@ -88,7 +88,7 @@ const LandingMenuItems = () => {
         {dummyData && dummyData.length > 0 && dummyData?.map((foodName, idx) =>
           <div key={idx}>
             <CommonCard
-              extracls={'w-full w-fit'}
+              extracls={'!w-48'}
               img={foodName?.img}
               itemName={foodName?.itemName}
               border
@@ -97,7 +97,11 @@ const LandingMenuItems = () => {
               text2={foodName?.location}
               showamount
               amount={foodName?.price}
-              cardOnClick={() => navigate(`/food_item_details/${idx+1}`)}
+              cardOnClick={() => navigate(`/food_item_details/${idx + 1}`)}
+              ratingForItem
+              ratingValue={4.5}
+              ratingPrecision={0.1}
+              ratingSize={"small"}
             />
           </div>
         )}
