@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { GoogleMap, Marker, Circle, useJsApiLoader, InfoWindow, } from "@react-google-maps/api";
 
 // For autocomplete and searching place 
 const libraries = ['places']
-const GoogleMapTwo = (props) => {
+const GoogleMapIndex = (props) => {
 
     // To get current location 
     const [currentLocation, setCurrentLocation] = useState({
@@ -11,14 +11,17 @@ const GoogleMapTwo = (props) => {
         lat: 0,
         lng: 0
     });
-    navigator.geolocation.getCurrentPosition((position) => {
-        setCurrentLocation({
-            text: 'This is your current location',
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-        });
-        console.log("Current Location", currentLocation.lat, currentLocation.lng);
-    })
+
+    useEffect(() => {
+        navigator.geolocation.getCurrentPosition((position) => {
+            setCurrentLocation({
+                text: 'This is your current location',
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            });
+            console.log("Current Location", currentLocation.lat, currentLocation.lng);
+        })
+    }, [])
 
     // for saving the value of current location somewhere 
     const [location, setLocation] = useState(currentLocation)
@@ -49,7 +52,7 @@ const GoogleMapTwo = (props) => {
     // This is where api key for Google map is put 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
-        googleMapsApiKey: "AIzaSyCNYbLjZvFSrvh1_ucROBz5A5BNYD5sGfU",
+        googleMapsApiKey: process.env.GOOGLE_MAP_SECRET_KEY,
         libraries: libraries
     })
 
@@ -123,4 +126,4 @@ const GoogleMapTwo = (props) => {
     )
 }
 
-export default GoogleMapTwo
+export default GoogleMapIndex

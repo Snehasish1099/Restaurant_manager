@@ -56,21 +56,21 @@ const Header = () => {
                             </div>
                             {openDetails === true ?
                                 <ClickAwayListener onClickAway={() => setOpenDetails(false)}>
-                                    <div className={`bg-blue-200 shadow-md w-32 rounded-b absolute top-8 z-20`}>
+                                    <div className={`bg-white shadow-md w-32 rounded-b absolute top-8 z-20`}>
                                         <div className={`h-fit overflow-hidden hover:overflow-y-auto`}>
                                             {userProfileArr.map((item, idx) =>
                                                 <div
                                                     key={idx}
                                                     onClick={() => setOpenDetails(false)}
                                                 >
-                                                    <List sx={{ marginBottom: "0.5rem", marginTop: "0.5rem", paddingTop: 0, paddingBottom: "2px", cursor: "pointer" }} >
+                                                    <List sx={{ marginBottom: "0.5rem", marginTop: "0", paddingTop: 0, paddingBottom: 0, cursor: "pointer" }} >
                                                         <ListItem disablePadding>
                                                             <Link to={item?.link}
                                                                 style={
                                                                     routeLocation?.pathname === item?.link ? activeStyle : style
                                                                 }
                                                             >
-                                                                <ListItemButton className='!px-2 gap-2'>
+                                                                <ListItemButton className='!px-2 gap-2 !w-32'>
                                                                     {item?.logo}
                                                                     <p className='text-black text-sm'>{item?.name}</p>
                                                                 </ListItemButton>

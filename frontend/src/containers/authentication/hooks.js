@@ -27,6 +27,8 @@ export const AuthHooks = () => {
         setPassword(e.target.value)
     }
 
+  const [openEditProfile, setOpenEditProfile] = useState(false)
+
     // Registration API call
     const RegistrationApiCall = async (formData) => {
         let data = {
@@ -39,7 +41,6 @@ export const AuthHooks = () => {
             }
         }
         let res = await doPostApiCall(data)
-        // console.log(res, "# res regis")
         if (res?.status === 201) {
             navigate('/login')
         } else {
@@ -59,7 +60,6 @@ export const AuthHooks = () => {
         }
 
         let res = await doPostApiCall(data)
-        // console.log(res, '# res login')
         if (res?.status === 200) {
             localStorage.setItem('token', res?.token)
             localStorage.setItem('userId', res?.userId)
@@ -100,7 +100,6 @@ export const AuthHooks = () => {
             url: `${process.env.REACT_APP_BASE_URL}/users/${userId}/`,
         }
         let res = await doGetApiCall(data)
-        console.log(res, '# res')
         if (res?.status === 200) {
             dispatch(userDetailsReducer(res?.data))
         } else {
@@ -122,10 +121,12 @@ export const AuthHooks = () => {
             }
         }
         let res = await doPutApiCall(data)
-        if (res?.status === 201) {
+        if (res?.status === 200) {
+            // getUserByIdApiCall(res?.data?.id)
             dispatch(userDetailsReducer(res?.data))
+            setOpenEditProfile(false)
         } else {
-            dispatch(userDetailsReducer(null))
+            
         }
     }
 
@@ -139,6 +140,9 @@ export const AuthHooks = () => {
 
         getAllUsersApiCall,
         getUserByIdApiCall,
+
+        openEditProfile,
+        setOpenEditProfile,
         updateUserByIdApiCall
     }
 }

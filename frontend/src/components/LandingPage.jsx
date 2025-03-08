@@ -16,11 +16,9 @@ const LandingPage = () => {
 
   return (
     <div>
-      <Header />
       <Banner/>
       <LandingMenuItems/>
       <LandingRestaurantPage/>
-      <Footer />
     </div>
   )
 }

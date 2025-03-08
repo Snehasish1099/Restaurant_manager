@@ -7,10 +7,10 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 
-from .models import MenuItem, Order, Restaurant
+from .models import MenuItem, Order, Restaurant, Review
 from .serializers import (
     MenuItemSerializer, OrderSerializer, 
-    RestaurantSerializer, ProfileSerializer
+    RestaurantSerializer, ProfileSerializer, ReviewSerializer
 )
 
 
@@ -83,12 +83,12 @@ def logout_view(request):
 class UserProfileListView(StandardResponseMixin, generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = ProfileSerializer
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     
 class UserDetailView(StandardResponseMixin, generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = ProfileSerializer
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     lookup_field = 'id'
 
 
@@ -109,3 +109,11 @@ class OrderView(StandardResponseMixin, viewsets.ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     permission_classes = [IsAuthenticated]
+
+class ReviewView(viewsets.ModelViewSet):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+    permission_classes = [AllowAny]
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
