@@ -9,7 +9,10 @@ class Profile(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.user.username + ' Profile'
+        return self.user.username
+    
+    def get_orders(self):
+        return self.orders.all()
 
 # Create your models here.
 class Restaurant(models.Model):
@@ -19,6 +22,9 @@ class Restaurant(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def get_menu(self):
+        return self.menu_items.all()
     
     def average_rating(self):
         reviews = self.reviews.all()

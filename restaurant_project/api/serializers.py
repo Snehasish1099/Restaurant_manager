@@ -51,14 +51,15 @@ class ProfileSerializer(serializers.ModelSerializer):
         return instance
 
 
-class RestaurantSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Restaurant
-        fields = '__all__'
-
 class MenuItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = MenuItem
+        fields = '__all__'
+        
+class RestaurantSerializer(serializers.ModelSerializer):
+    menu_items = MenuItemSerializer(many=True, read_only=True)
+    class Meta:
+        model = Restaurant
         fields = '__all__'
 
 class OrderSerializer(serializers.ModelSerializer):
