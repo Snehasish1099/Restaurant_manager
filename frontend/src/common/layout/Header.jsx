@@ -5,6 +5,8 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 // import { AuthHooks } from '../../containers/authentication/hooks'
 import LogoutIcon from '@mui/icons-material/Logout';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import CommonDrawer from '../ui_components/CommonDrawer';
 
 const Header = () => {
 
@@ -16,7 +18,7 @@ const Header = () => {
     const [openDetails, setOpenDetails] = useState(false)
 
     const userProfileArr = [
-        { name: 'User Profile', link: `/user_profile/${localStorage.getItem('userId')}`, logo: <AccountCircleIcon/> },
+        { name: 'User Profile', link: `/user_profile/${localStorage.getItem('userId')}`, logo: <AccountCircleIcon /> },
     ]
 
     const activeStyle = {
@@ -39,18 +41,26 @@ const Header = () => {
         lineHeight: '15px',
     }
 
+    const [open, setOpen] = useState(false);
+
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
+
     return (
-        <div className='bg-blue-700 h-10 w-full flex justify-between items-center px-[5%]'>
+        <div className='bg-blue-800 h-10 w-full flex justify-between items-center px-[5%]'>
             <img src="logo" alt="logo" className='cursor-pointer' onClick={() => navigate('/')} />
             <div className='flex justify-center items-center'>
                 <p className={`font-medium text-white text-xs leading-5 capitalize tracking-[0.15px] cursor-pointer`}>{"Help | Contact"}</p>
                 <div className={`flex items-center`}>
-                    <div className={`border-l mx-5 border-solid border-orange-700 h-6`}></div>
+                    <div className={`border-l mx-5 border-solid border-orange-600 h-6`}></div>
+                    <ShoppingCartIcon className='cursor-pointer' onClick={() => handleOpen()}/>
+                    <div className={`border-l mx-5 border-solid border-orange-600 h-6`}></div>
 
                     {localStorage.getItem('token') ?
                         <div className={`relative`}>
                             <div className={`flex items-center justify-center gap-4 w-32 cursor-pointer `} onClick={() => setOpenDetails(!openDetails)}>
-                                <AccountCircleIcon/>
+                                <AccountCircleIcon />
                                 <p className={`font-medium text-white text-xs leading-5 cursor-pointer tracking-[0.15px] flex gap-2`}>{"Profile"}</p>
                                 <KeyboardArrowUpIcon className={openDetails === true ? null : `rotate-180`} />
                             </div>
@@ -81,7 +91,7 @@ const Header = () => {
                                                 </div>)
                                             }
                                             <div onClick={() => { localStorage.removeItem('token'); navigate('/login') }} className={`flex items-center gap-2 py-[5%] cursor-pointer px-2`}>
-                                                <LogoutIcon/>
+                                                <LogoutIcon />
                                                 <p className={`text-black text-sm`}>{"Logout"}</p>
                                             </div>
                                         </div>
@@ -101,6 +111,14 @@ const Header = () => {
                             </div>
                         </div>
                     }
+
+                    <CommonDrawer
+                        open={open}
+                        onClose={handleClose}
+                        title="Add to Cart"
+                    >
+                        <p>{'Content for cart'}</p>
+                    </CommonDrawer>
                 </div>
             </div>
         </div>

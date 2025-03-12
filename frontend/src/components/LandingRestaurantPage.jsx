@@ -13,33 +13,6 @@ const LandingRestaurantPage = () => {
 
   const navigate = useNavigate()
 
-  // const dummyData = [
-  //   {
-  //     img: biriyani,
-  //     itemName: 'Arsalan',
-  //     address: "Hatibagan, Kolkata-06, West Bengal",
-  //     rating: 5,
-  //   },
-  //   {
-  //     img: chowmin,
-  //     itemName: 'Aminia',
-  //     address: "Shyambazar, Kolkata-06, West Bengal",
-  //     rating: 4.6,
-  //   },
-  //   {
-  //     img: chicken_tandoori,
-  //     itemName: 'New Malancha',
-  //     address: "Hatibagan, Kolkata-06, West Bengal",
-  //     rating: 3.7,
-  //   },
-  //   {
-  //     img: fried_rice,
-  //     itemName: 'Sutanuti Jn.',
-  //     address: "Hatibagan, Kolkata-06, West Bengal",
-  //     rating: 4.4,
-  //   },
-  // ]
-
   const restaurantData = useSelector(((state) => state?.dataReducer?.restaurant))
 
   return (
@@ -50,14 +23,14 @@ const LandingRestaurantPage = () => {
           {restaurantData?.map((restau, idx) =>
             <div key={idx}>
               <CommonCard
-                extracls={'!w-48'}
+                extracls={'!w-60 !h-[25rem]'}
                 // img={restau?.imgage}
                 noContentImg={restau?.image ? false : true}
                 itemName={restau?.name}
                 itemtext
                 text2={restau?.address}
                 ratingForItem
-                ratingValue={restau?.rating ? restau?.rating : 1}
+                ratingValue={restau?.rating ? restau?.rating : 4.5}
                 ratingPrecision={0.1}
                 ratingSize={"small"}
                 cardOnClick={() => navigate(`/restaurant_details/${restau?.id}`)}
