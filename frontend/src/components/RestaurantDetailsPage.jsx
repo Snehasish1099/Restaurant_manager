@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 
 const RestaurantDetailsPage = () => {
 
-  const { getSingleRestaurantsApiCall, postReviewApiCall, getReviewApiCall } = LandingPageHooks()
+  const { getSingleRestaurantsApiCall, postReviewApiCall, getReviewApiCall, writeReview, handleReview } = LandingPageHooks()
   const params = useParams()
 
   useEffect(() => {
@@ -14,14 +14,19 @@ const RestaurantDetailsPage = () => {
   }, [params?.id])
 
   const restaurantDetails = useSelector((state) => state?.dataReducer?.singleRestaurant)
+  const reviewDataForRestau = useSelector((state) => state?.dataReducer?.reviews)?.filter((item) => item?.restaurant?.id === parseInt(params?.id))
 
   return (
     <CommonDetailsPage
       isRestaurant
       details={restaurantDetails}
       dataToMap={restaurantDetails?.menu_items}
+
+      writeReview={writeReview}
+      handleReview={handleReview}
       postReviewApiCall={postReviewApiCall}
       getReviewApiCall={getReviewApiCall}
+      reviewData={reviewDataForRestau}
     />
   )
 }

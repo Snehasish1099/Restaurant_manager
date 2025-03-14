@@ -1,13 +1,19 @@
 import { doGetApiCall, doPostApiCall, doPutApiCall } from '../utils/ApiConfig'
 import { useDispatch } from 'react-redux'
-import { menuGetReducer, orderGetReducer, restaurantGetReducer, singleMenuItemReducer, singleOrderGetReducer, singleRestaurantReducer } from './reducerSlice'
+import { menuGetReducer, orderGetReducer, restaurantGetReducer, reviewGetReducer, singleMenuItemReducer, singleOrderGetReducer, singleRestaurantReducer } from './reducerSlice'
 import { useLocation, useParams } from 'react-router'
+import { useState } from 'react'
 
 export const LandingPageHooks = () => {
     const dispatch = useDispatch()
 
     const searchUrl = useLocation()
     const params = useParams()
+
+    const [writeReview, setWriteReview] = useState(false)
+    const handleReview = () => {
+        setWriteReview(!writeReview)
+    }
 
     //------------------------------------------- Restaurants --------------------------------------------
 
@@ -138,7 +144,7 @@ export const LandingPageHooks = () => {
         if (res?.status === 200) {
             getOrdersApiCall()
         } else {
-
+            
         }
     }
 
@@ -199,21 +205,27 @@ export const LandingPageHooks = () => {
         let res = await doPostApiCall(data)
         if (res?.status === 200) {
             getReviewApiCall()
+            setWriteReview(false)
         } else {
 
         }
     }
 
-     /**
-     * 
-     * @method GET
-     * @description - Gets all the reviews
-     */
+    /**
+    * 
+    * @method GET
+    * @description - Gets all the reviews
+    */
     const getReviewApiCall = async () => {
         let data = {
             url: `${process.env.REACT_APP_BASE_URL}/reviews/`,
         }
         let res = await doGetApiCall(data)
+        if (res?.status === 200) {
+            dispatch(reviewGetReducer(res?.data))
+        } else {
+            dispatch(reviewGetReducer([]))
+        }
     }
 
     return {
@@ -230,6 +242,8 @@ export const LandingPageHooks = () => {
         createOrderApiCall,
 
         postReviewApiCall,
-        getReviewApiCall
+        getReviewApiCall,
+        writeReview,
+        handleReview
     }
 }

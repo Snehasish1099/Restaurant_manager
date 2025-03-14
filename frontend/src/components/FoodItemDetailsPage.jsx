@@ -6,7 +6,7 @@ import CommonDetailsPage from '../common/ui_components/CommonDetailsPage'
 
 const FoodItemDetailsPage = () => {
 
-  const { getSingleRestaurantsApiCall, getMenuByIdApiCall, postReviewApiCall, getReviewApiCall } = LandingPageHooks()
+  const { getSingleRestaurantsApiCall, getMenuByIdApiCall, postReviewApiCall, getReviewApiCall, writeReview, handleReview } = LandingPageHooks()
   const params = useParams()
 
   const foodDetails = useSelector((state) => state?.dataReducer?.menuItem)
@@ -18,14 +18,24 @@ const FoodItemDetailsPage = () => {
 
   const restaurantDetails = useSelector((state) => state?.dataReducer?.singleRestaurant)
 
+  const reviewDataForFood = useSelector((state) => state?.dataReducer?.reviews)?.filter((item) => item?.menu_item?.id === parseInt(params?.id))
+
+  console.log(reviewDataForFood, "# reviewDataForFood")
+  
+
   const navigate = useNavigate()
 
   return (
     <CommonDetailsPage
       details={foodDetails}
       shop={restaurantDetails}
+
+      writeReview={writeReview}
+      handleReview={handleReview}
       postReviewApiCall={postReviewApiCall}
       getReviewApiCall={getReviewApiCall}
+      reviewData={reviewDataForFood}
+
       goToShopPageFunc={() => navigate(`/restaurant_details/${restaurantDetails?.id}`)}
       // addToCartClick={() => }
     />

@@ -71,6 +71,7 @@ class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = '__all__'
+        depth = 1
 
     def create(self, validated_data):
         validated_data['user'] = self.context['request'].user

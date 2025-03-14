@@ -19,8 +19,6 @@ const RatingReviewForm = (props) => {
     });
 
     const onSubmit = (data) => {
-        // props.setWriteReview(false)
-        console.log(data, "# review data")
         props.postReviewApiCall(data)
         reset({
             rating: 0,
@@ -88,7 +86,7 @@ const RatingReviewForm = (props) => {
                             buttonInsidecls={`gap-2`}
                             type='reset'
                             buttonextracls={`!px-6 !py-2 !text-black !bg-gray-200 mr-5`}
-                            onClick={() => props.setWriteReview(false)}
+                            onClick={() => props.handleReview()}
                         />
                         <ButtonField
                             buttonName={`Post Review`}

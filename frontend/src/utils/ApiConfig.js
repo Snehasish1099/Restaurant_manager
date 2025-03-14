@@ -5,8 +5,6 @@ export const doGetApiCall = async (data) => {
             token = localStorage.getItem('token')
         }
 
-        console.log(token, "# token")
-
         const reqstValues = {
             method: "GET",
             headers: {

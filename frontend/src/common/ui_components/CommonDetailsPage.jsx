@@ -14,11 +14,6 @@ const CommonDetailsPage = (props) => {
 
     const navigate = useNavigate()
 
-    const [writeReview, setWriteReview] = useState(false)
-    const handleReview = () => {
-        setWriteReview(true)
-    }
-
     const [count, setCount] = useState(0)
     const increaseCount = () => {
         setCount(count + 1)
@@ -31,12 +26,12 @@ const CommonDetailsPage = (props) => {
     useEffect(() => {
         props.getReviewApiCall()
     }, [])
-    
+
 
     return (
         <div className={``}>
             {/* This is the main div of this component  */}
-            <div className={`px-[5%]`}>
+            <div className={`p-[4%]`}>
                 <div className={`w-full justify-between items-center py-5`}>
                     <p className={`text-deepgray-5 text-2xl font-bold`}>{props.details?.name}</p>
                     <RatingField
@@ -149,16 +144,17 @@ const CommonDetailsPage = (props) => {
                     <div className={`w-1/2`}>
                         <p className={`text-black text-xl mb-4`}>{"Reviews"}</p>
                         <CommonReviews
-                            reviewDate={props.reviewDate}
-                        // mainDivCls={`flex flex-col justify-between items-center bg-white`}
-                        // subDivCls={`px-0 py-6`}
+                            reviewData={props.reviewData}
                         />
                     </div>
                     <div className={`w-2/5`}>
                         <p className={`text-black text-xl`}>{"Customer Review"}</p>
-                        <CustomerReview details={props.details} />
-                        {writeReview === true ?
-                            <RatingReviewForm setWriteReview={setWriteReview} postReviewApiCall={props.postReviewApiCall} />
+                        <CustomerReview />
+                        {props.writeReview === true ?
+                            <RatingReviewForm
+                                handleReview={props.handleReview}
+                                postReviewApiCall={props.postReviewApiCall}
+                            />
                             :
                             localStorage?.getItem('token') &&
                             <div className={`cursor-pointer rounded border flex justify-center my-4`}>
@@ -167,7 +163,7 @@ const CommonDetailsPage = (props) => {
                                     buttonextracls={`rounded-md border bg-white py-3 w-full`}
                                     buttonnamecls={`text-sm capitalize`}
                                     outerBtnCls={`w-full`}
-                                    onClick={() => handleReview()}
+                                    onClick={() => props.handleReview()}
                                 />
                             </div>
                         }
