@@ -4,18 +4,21 @@ export const doGetApiCall = async (data) => {
         if (typeof window !== 'undefined') {
             token = localStorage.getItem('token')
         }
+
+        console.log(token, "# token")
+
         const reqstValues = {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
                 Accept: "application/json",
-                Authorization: token || "",
+                Authorization: `Token ${token}` || "",
             },
         };
         fetch(data.url, reqstValues)
             .then((response) => {
                 if (response.status === 401) {
-                    localStorage.clear()
+                    // localStorage.clear()
                 } else {
                     return response.json();
                 }
@@ -37,13 +40,13 @@ export const doPostApiCall = async (data) => {
             headers: {
                 "Content-Type": "application/json",
                 Accept: "application/json",
-                Authorization: token || "",
+                Authorization: token ? `Token ${token}` : "",
             },
         };
         fetch(data.url, reqstValues)
             .then((result) => {
                 if (result.status === 401) {
-                    localStorage.clear()
+                    // localStorage.clear()
                 } else {
                     return result.json();
                 }
@@ -76,7 +79,7 @@ export const doUploadMediaApiCall = async (data) => {
         fetch(data.url, reqstValues)
             .then((result) => {
                 if (result.status === 401) {
-                    localStorage.clear()
+                    // localStorage.clear()
                 } else {
                     return result.json();
                 }
@@ -111,7 +114,7 @@ export const doDeleteApiCall = async (data) => {
         fetch(data.url, reqstValues)
             .then((response) => {
                 if (response.status === 401) {
-                    localStorage.clear()
+                    // localStorage.clear()
                 } else {
                     return response.json();
                 }
@@ -139,7 +142,7 @@ export const doPutApiCall = async (data) => {
         fetch(data.url, reqstValues)
             .then((result) => {
                 if (result.status === 401) {
-                    localStorage.clear()
+                    // localStorage.clear()
                 } else {
                     return result.json();
                 }

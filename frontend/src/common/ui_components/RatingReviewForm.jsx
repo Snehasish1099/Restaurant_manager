@@ -9,6 +9,7 @@ const RatingReviewForm = (props) => {
     const {
         handleSubmit,
         control,
+        formState: { errors },
         reset
     } = useForm({
         defaultValues: {
@@ -18,7 +19,9 @@ const RatingReviewForm = (props) => {
     });
 
     const onSubmit = (data) => {
-        props.setWriteReview(false)
+        // props.setWriteReview(false)
+        console.log(data, "# review data")
+        props.postReviewApiCall(data)
         reset({
             rating: 0,
             writereview: ''
@@ -34,28 +37,30 @@ const RatingReviewForm = (props) => {
                         <div className={`border w-full p-5`}>
                             <Controller name={"rating"}
                                 control={control}
-                                render={({ field: { onChange, value }, formState: { error } }) => {
+                                render={({ field: { onChange, value } }) => {
                                     return (
                                         <RatingField
                                             name="rating"
                                             size='large'
-                                            SendRating={true}
                                             onChange={onChange}
                                             value={value}
                                         />
                                     )
                                 }}
                                 rules={{
-                                    required: true
+                                    required: true,
                                 }}
                             />
+                            {errors.rating && errors.rating.type === "required" && (
+                                <span className="error-message text-red-400 text-xs">Required</span>
+                            )}
                         </div>
                     </div>
                     <div className={`w-full`}>
                         <p className={`text-base`}>{'Write Review'}</p>
                         <Controller name={"writereview"}
                             control={control}
-                            render={({ field: { onChange, value }, formState: { error } }) => {
+                            render={({ field: { onChange, value } }) => {
                                 return (
                                     <TextFieldInput
                                         textinputname="writereview"
@@ -70,22 +75,23 @@ const RatingReviewForm = (props) => {
                                 )
                             }}
                             rules={{
-                                required: true, minLength: 3
+                                required: true
                             }}
                         />
+                        {errors.writereview && errors.writereview.type === "required" && (
+                            <span className="error-message text-red-400 text-xs">Required</span>
+                        )}
                     </div>
-                    <div className={`flex justify-end mt-5`}>
+                    <div className={`flex justify-end gap-5 mt-5`}>
                         <ButtonField
                             buttonName={"cancel"}
                             buttonInsidecls={`gap-2`}
-                            alt='backArrow'
                             type='reset'
                             buttonextracls={`!px-6 !py-2 !text-black !bg-gray-200 mr-5`}
                             onClick={() => props.setWriteReview(false)}
                         />
                         <ButtonField
                             buttonName={`Post Review`}
-                            alt='rightArrow'
                             type='submit'
                             buttonInsidecls={`!flex-row-reverse gap-2 `}
                             buttonextracls={`!px-6 !py-2 !text-white !bg-blue-600`}

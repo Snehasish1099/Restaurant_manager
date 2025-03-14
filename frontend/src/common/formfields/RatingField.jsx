@@ -35,9 +35,7 @@ const RatingField = (props) => {
                 max={props.max}
                 highlightSelectedOnly={false}
                 getLabelText={getLabelText}
-                onChange={(event, newValue) => {
-                    setValue(newValue);
-                }}
+                onChange={props.onChange}
                 onChangeActive={(event, newHover) => {
                     setHover(newHover);
                 }}
@@ -45,9 +43,9 @@ const RatingField = (props) => {
                 readOnly={props.readOnly}
             />
 
-            {value !== null && (
+            {(props.value || value !== null) && (
                 <Box sx={{ ml: "3px", fontSize: 13, display: "flex", fontFamily: "Roboto-Regular", mt: "3px" }}>
-                    <p className={`mr-1 text-xs text-black`}>{labels[hover === 1 && hover]}&nbsp;<span className=''>{props.value || value}</span></p>
+                    <p className={`mr-1 text-xs text-black`}>{labels[hover !== 0 && hover]}</p>
                 </Box>
             )}
         </Box>

@@ -1,9 +1,13 @@
 import { doGetApiCall, doPostApiCall, doPutApiCall } from '../utils/ApiConfig'
 import { useDispatch } from 'react-redux'
 import { menuGetReducer, orderGetReducer, restaurantGetReducer, singleMenuItemReducer, singleOrderGetReducer, singleRestaurantReducer } from './reducerSlice'
+import { useLocation, useParams } from 'react-router'
 
 export const LandingPageHooks = () => {
     const dispatch = useDispatch()
+
+    const searchUrl = useLocation()
+    const params = useParams()
 
     //------------------------------------------- Restaurants --------------------------------------------
 
@@ -170,6 +174,48 @@ export const LandingPageHooks = () => {
         }
     }
 
+    //------------------------------- Reviews ----------------------------------------------
+
+    /**
+     * 
+     * @param {*} formData 
+     * @method POST
+     * @description - Create new review
+     */
+    const postReviewApiCall = async (formData) => {
+        let data = {
+            url: `${process.env.REACT_APP_BASE_URL}/reviews/`,
+            bodyData: {
+                "user": parseInt(localStorage.getItem('userId')),
+                "rating": parseFloat(formData?.rating),
+                "review_text": formData?.writereview,
+            }
+        }
+        if (searchUrl?.pathname?.includes('food_item_details')) {
+            data.bodyData.menu_item = parseInt(params?.id)
+        } else {
+            data.bodyData.restaurant = parseInt(params?.id)
+        }
+        let res = await doPostApiCall(data)
+        if (res?.status === 200) {
+            getReviewApiCall()
+        } else {
+
+        }
+    }
+
+     /**
+     * 
+     * @method GET
+     * @description - Gets all the reviews
+     */
+    const getReviewApiCall = async () => {
+        let data = {
+            url: `${process.env.REACT_APP_BASE_URL}/reviews/`,
+        }
+        let res = await doGetApiCall(data)
+    }
+
     return {
         getRestaurantsApiCall,
         // createRestaurantApiCall,
@@ -182,5 +228,8 @@ export const LandingPageHooks = () => {
         getOrdersApiCall,
         getSingleOrdersApiCall,
         createOrderApiCall,
+
+        postReviewApiCall,
+        getReviewApiCall
     }
 }

@@ -52,7 +52,7 @@ class Order(models.Model):
         ('canceled', 'Canceled'),
     ]
     
-    customer = models.ForeignKey(Profile, related_name='orders', on_delete=models.CASCADE)
+    customer = models.ForeignKey(User, related_name='orders', on_delete=models.CASCADE)
     items = models.ManyToManyField(MenuItem, related_name='orders')
     total_price = models.DecimalField(max_digits=8, decimal_places=2)
     delivery_address = models.TextField(blank=True, null=True)
@@ -60,7 +60,7 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Order #{self.pk} by {self.customer.user.username}"
+        return f"Order #{self.pk} by {self.customer.username}"
     
     
 class Review(models.Model):
@@ -72,4 +72,4 @@ class Review(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.user.username} - {self.rating} Stars"
+        return f"{self.review_text} - {self.user.username}"

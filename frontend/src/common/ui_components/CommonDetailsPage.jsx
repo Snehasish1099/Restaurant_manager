@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ButtonField from '../formfields/ButtonField'
 import RatingField from '../formfields/RatingField'
 import CommonCard from '../CommonCard'
@@ -7,6 +7,8 @@ import CommonReviews from './CommonReviews'
 import CustomCarousal from '../CustomCarousal'
 import CustomerReview from './CustomerReview'
 import RatingReviewForm from './RatingReviewForm'
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
 const CommonDetailsPage = (props) => {
 
@@ -16,6 +18,20 @@ const CommonDetailsPage = (props) => {
     const handleReview = () => {
         setWriteReview(true)
     }
+
+    const [count, setCount] = useState(0)
+    const increaseCount = () => {
+        setCount(count + 1)
+    }
+    const deccreaseCount = () => {
+        if (count > 0)
+            setCount(count - 1)
+    }
+
+    useEffect(() => {
+        props.getReviewApiCall()
+    }, [])
+    
 
     return (
         <div className={``}>
@@ -33,7 +49,11 @@ const CommonDetailsPage = (props) => {
                 <div className={`flex w-full justify-between gap-20`}>
                     <div className={`w-1/2 flex flex-col`}>
                         <div className={`w-full h-[20em] flex justify-center items-center border rounded border-slate-600`}>
-                            <p className={`text-[2em]`}>{'No Image Available'}</p>
+                            {props.details?.image ?
+                                <img src={props.details?.image} alt="img" />
+                                :
+                                <p className={`text-[2em]`}>{'No Image Available'}</p>
+                            }
                         </div>
                     </div>
 
@@ -74,14 +94,22 @@ const CommonDetailsPage = (props) => {
                         </div>
 
                         {!props.isRestaurant &&
-                            <ButtonField
-                                variant={'outlined'}
-                                onClick={props.addToCartClick}
-                                buttonName={"Add to Cart"}
-                                buttonextracls={`px-2 py-2 text-white ${props.loading === true && 'bg-grey-300'} bg-orange-600 text-sm w-1/2 hover:bg-blue-400 hover:text-black`}
-                                loading={props.loading}
-                                disabled={props.loading === true ? true : false}
-                            />
+                            <div className='flex justify-between'>
+                                <div className='flex items-center gap-4 border w-fit p-2'>
+                                    <RemoveCircleOutlineIcon className='cursor-pointer' onClick={() => deccreaseCount()} />
+                                    <div>{count}</div>
+                                    <AddCircleOutlineIcon className='cursor-pointer' onClick={() => increaseCount()} />
+                                </div>
+
+                                <ButtonField
+                                    variant={'outlined'}
+                                    onClick={props.addToCartClick}
+                                    buttonName={"Add to Cart"}
+                                    buttonextracls={`px-2 py-2 text-white ${props.loading === true && 'bg-grey-300'} bg-orange-600 text-sm hover:bg-blue-400 hover:text-black`}
+                                    loading={props.loading}
+                                    disabled={props.loading === true ? true : false}
+                                />
+                            </div>
                         }
                     </div>
                 </div>
@@ -96,8 +124,7 @@ const CommonDetailsPage = (props) => {
                                     <div key={idx} className={``}>
                                         <CommonCard
                                             extracls={'!w-60 !h-[25rem]'}
-                                            // img={item?.image}
-                                            noContentImg
+                                            img={item?.image}
                                             itemName={item?.name}
                                             itemtext
                                             text2={item?.address ? item?.address : item?.description ? item?.description : null}
@@ -131,7 +158,7 @@ const CommonDetailsPage = (props) => {
                         <p className={`text-black text-xl`}>{"Customer Review"}</p>
                         <CustomerReview details={props.details} />
                         {writeReview === true ?
-                            <RatingReviewForm setWriteReview={setWriteReview} />
+                            <RatingReviewForm setWriteReview={setWriteReview} postReviewApiCall={props.postReviewApiCall} />
                             :
                             localStorage?.getItem('token') &&
                             <div className={`cursor-pointer rounded border flex justify-center my-4`}>

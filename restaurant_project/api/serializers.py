@@ -68,12 +68,10 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = '__all__'
         
 class ReviewSerializer(serializers.ModelSerializer):
-    user = serializers.ReadOnlyField(source='user.username')
     class Meta:
         model = Review
         fields = '__all__'
 
-    def validate(self, data):
-        if not data.get('restaurant') and not data.get('menu_item'):
-            raise serializers.ValidationError("A review must be linked to either a restaurant or a menu item.")
-        return data
+    def create(self, validated_data):
+        validated_data['user'] = self.context['request'].user
+        return super().create(validated_data)

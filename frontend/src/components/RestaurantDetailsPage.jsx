@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 
 const RestaurantDetailsPage = () => {
 
-  const { getSingleRestaurantsApiCall } = LandingPageHooks()
+  const { getSingleRestaurantsApiCall, postReviewApiCall, getReviewApiCall } = LandingPageHooks()
   const params = useParams()
 
   useEffect(() => {
@@ -20,6 +20,8 @@ const RestaurantDetailsPage = () => {
       isRestaurant
       details={restaurantDetails}
       dataToMap={restaurantDetails?.menu_items}
+      postReviewApiCall={postReviewApiCall}
+      getReviewApiCall={getReviewApiCall}
     />
   )
 }

@@ -11,7 +11,9 @@ const CommonCard = (props) => {
         <div className={`border w-full rounded-md bg-white shadow shadow-gray-500/20 group/item mb-5 duration-500 ${props.extracls} cursor-pointer !h-[20em]`} onClick={props.cardOnClick}>
 
             {props.img ? (
-                <img src={props.img} alt='img' className='w-full' />
+                <div className='flex justify-center items-center bg-[#343434] mb-5'>
+                    <img src={props.img} alt='img' className='w-fit' />
+                </div>
             )
                 :
                 props.noContentImg ?
