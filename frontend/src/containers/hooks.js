@@ -136,12 +136,14 @@ export const LandingPageHooks = () => {
             bodyData: {
                 items: formData?.items,
                 total_price: formData?.total_price,
-                customer: localStorage.getItem('userId')
+                customer: localStorage.getItem('userId'),
+                delivery_address: formData?.address,
+                status: "pending"
             }
         }
         let res = await doPostApiCall(data)
         console.log(res, "# post order res")
-        if (res?.status === 200) {
+        if (res?.status === 201) {
             getOrdersApiCall()
         } else {
             
@@ -202,8 +204,9 @@ export const LandingPageHooks = () => {
         } else {
             data.bodyData.restaurant = parseInt(params?.id)
         }
+
         let res = await doPostApiCall(data)
-        if (res?.status === 200) {
+        if (res?.status === 201) {
             getReviewApiCall()
             setWriteReview(false)
         } else {

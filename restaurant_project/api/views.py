@@ -1,12 +1,11 @@
 from django.contrib.auth.models import User
-from django.shortcuts import render
 from rest_framework import generics, viewsets, status, serializers
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
-from django.contrib.auth.decorators import login_required
+from django.db.models import Avg
 
 from .models import MenuItem, Order, Restaurant, Review
 from .serializers import (
@@ -113,7 +112,7 @@ class OrderView(StandardResponseMixin, viewsets.ModelViewSet):
 
 # @login_required
 class ReviewView(StandardResponseMixin, viewsets.ModelViewSet):
-    queryset = Review.objects.all()
+    queryset = Review.objects.all().select_related('user', 'restaurant', 'menu_item')
     serializer_class = ReviewSerializer
     permission_classes = [IsAuthenticated]
 

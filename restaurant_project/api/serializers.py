@@ -3,6 +3,7 @@ from .models import Restaurant, MenuItem, Order, Review
 from django.contrib.auth.models import User
 from .models import Profile
 from django.contrib.auth import get_user_model
+from django.db.models import Avg
 
 User = get_user_model()
 
@@ -68,11 +69,34 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = '__all__'
         
 class ReviewSerializer(serializers.ModelSerializer):
+    avg_menu_rating = serializers.SerializerMethodField()
+    avg_restaurant_rating = serializers.SerializerMethodField()
+    
     class Meta:
         model = Review
         fields = '__all__'
-        depth = 1
-
+        
     def create(self, validated_data):
         validated_data['user'] = self.context['request'].user
         return super().create(validated_data)
+    
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data['user'] = ProfileSerializer(instance.user).data
+        if instance.restaurant:
+            data['restaurant'] = RestaurantSerializer(instance.restaurant).data
+        if instance.menu_item:
+            data['menu_item'] = MenuItemSerializer(instance.menu_item).data
+        return data
+    
+    def get_avg_menu_rating(self, obj):
+        if obj.menu_item:
+            avg = Review.objects.filter(menu_item=obj.menu_item).aggregate(Avg('rating'))
+            return avg['rating__avg']
+        return None
+    
+    def get_avg_restaurant_rating(self, obj):
+        if obj.restaurant:
+            avg = Review.objects.filter(restaurant=obj.restaurant).aggregate(Avg('rating'))
+            return avg['rating__avg']
+        return None

@@ -27,7 +27,6 @@ const CommonDetailsPage = (props) => {
         props.getReviewApiCall()
     }, [])
 
-
     return (
         <div className={``}>
             {/* This is the main div of this component  */}
@@ -37,7 +36,7 @@ const CommonDetailsPage = (props) => {
                     <RatingField
                         size="small"
                         precision={0.1}
-                        value={4.5}
+                        value={props.avgRating}
                         readOnly={true}
                     />
                 </div>

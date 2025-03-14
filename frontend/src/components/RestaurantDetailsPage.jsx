@@ -27,6 +27,7 @@ const RestaurantDetailsPage = () => {
       postReviewApiCall={postReviewApiCall}
       getReviewApiCall={getReviewApiCall}
       reviewData={reviewDataForRestau}
+      avgRating={reviewDataForRestau?.[0]?.avg_restaurant_rating}
     />
   )
 }
