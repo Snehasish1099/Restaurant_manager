@@ -1,9 +1,19 @@
 import { doGetApiCall, doPostApiCall, doPutApiCall } from '../utils/ApiConfig'
 import { useDispatch } from 'react-redux'
-import { menuGetReducer, orderGetReducer, restaurantGetReducer, singleMenuItemReducer, singleOrderGetReducer, singleRestaurantReducer } from './reducerSlice'
+import { menuGetReducer, orderGetReducer, restaurantGetReducer, reviewGetReducer, singleMenuItemReducer, singleOrderGetReducer, singleRestaurantReducer } from './reducerSlice'
+import { useLocation, useParams } from 'react-router'
+import { useState } from 'react'
 
 export const LandingPageHooks = () => {
     const dispatch = useDispatch()
+
+    const searchUrl = useLocation()
+    const params = useParams()
+
+    const [writeReview, setWriteReview] = useState(false)
+    const handleReview = () => {
+        setWriteReview(!writeReview)
+    }
 
     //------------------------------------------- Restaurants --------------------------------------------
 
@@ -126,15 +136,17 @@ export const LandingPageHooks = () => {
             bodyData: {
                 items: formData?.items,
                 total_price: formData?.total_price,
-                customer: localStorage.getItem('userId')
+                customer: localStorage.getItem('userId'),
+                delivery_address: formData?.address,
+                status: "pending"
             }
         }
         let res = await doPostApiCall(data)
         console.log(res, "# post order res")
-        if (res?.status === 200) {
+        if (res?.status === 201) {
             getOrdersApiCall()
         } else {
-
+            
         }
     }
 
@@ -170,6 +182,55 @@ export const LandingPageHooks = () => {
         }
     }
 
+    //------------------------------- Reviews ----------------------------------------------
+
+    /**
+     * 
+     * @param {*} formData 
+     * @method POST
+     * @description - Create new review
+     */
+    const postReviewApiCall = async (formData) => {
+        let data = {
+            url: `${process.env.REACT_APP_BASE_URL}/reviews/`,
+            bodyData: {
+                "user": parseInt(localStorage.getItem('userId')),
+                "rating": parseFloat(formData?.rating),
+                "review_text": formData?.writereview,
+            }
+        }
+        if (searchUrl?.pathname?.includes('food_item_details')) {
+            data.bodyData.menu_item = parseInt(params?.id)
+        } else {
+            data.bodyData.restaurant = parseInt(params?.id)
+        }
+
+        let res = await doPostApiCall(data)
+        if (res?.status === 201) {
+            getReviewApiCall()
+            setWriteReview(false)
+        } else {
+
+        }
+    }
+
+    /**
+    * 
+    * @method GET
+    * @description - Gets all the reviews
+    */
+    const getReviewApiCall = async () => {
+        let data = {
+            url: `${process.env.REACT_APP_BASE_URL}/reviews/`,
+        }
+        let res = await doGetApiCall(data)
+        if (res?.status === 200) {
+            dispatch(reviewGetReducer(res?.data))
+        } else {
+            dispatch(reviewGetReducer([]))
+        }
+    }
+
     return {
         getRestaurantsApiCall,
         // createRestaurantApiCall,
@@ -182,5 +243,10 @@ export const LandingPageHooks = () => {
         getOrdersApiCall,
         getSingleOrdersApiCall,
         createOrderApiCall,
+
+        postReviewApiCall,
+        getReviewApiCall,
+        writeReview,
+        handleReview
     }
 }

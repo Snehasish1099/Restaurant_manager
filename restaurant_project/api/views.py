@@ -1,11 +1,11 @@
 from django.contrib.auth.models import User
-from django.shortcuts import render
-from rest_framework import generics, viewsets, status
+from rest_framework import generics, viewsets, status, serializers
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
+from django.db.models import Avg
 
 from .models import MenuItem, Order, Restaurant, Review
 from .serializers import (
@@ -110,10 +110,14 @@ class OrderView(StandardResponseMixin, viewsets.ModelViewSet):
     serializer_class = OrderSerializer
     permission_classes = [IsAuthenticated]
 
-class ReviewView(viewsets.ModelViewSet):
-    queryset = Review.objects.all()
+# @login_required
+class ReviewView(StandardResponseMixin, viewsets.ModelViewSet):
+    queryset = Review.objects.all().select_related('user', 'restaurant', 'menu_item')
     serializer_class = ReviewSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        if self.request.user and self.request.user.is_authenticated:
+            serializer.save(user=self.request.user)
+        else:
+            raise serializers.ValidationError("User is not authenticated.")

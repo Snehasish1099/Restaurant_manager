@@ -8,6 +8,7 @@ export const initialState = {
     singleRestaurant: {},
     order: [],
     singleOrder: {},
+    reviews: [],
     loading: false,
     error: false,
 };
@@ -56,9 +57,16 @@ export const mainSlice = createSlice({
             state.singleOrder = action.payload;
             state.loading = false;
             state.error = false;
+        },
+
+        //Reviews
+        reviewGetReducer: (state, action) => {
+            state.reviews = action.payload;
+            state.loading = false;
+            state.error = false;
         }
     }
 })
 
-export const { customerGetReducer, menuGetReducer, restaurantGetReducer, orderGetReducer, singleMenuItemReducer, singleOrderGetReducer, singleRestaurantReducer } = mainSlice.actions;
+export const { customerGetReducer, menuGetReducer, restaurantGetReducer, orderGetReducer, singleMenuItemReducer, singleOrderGetReducer, singleRestaurantReducer, reviewGetReducer } = mainSlice.actions;
 export default mainSlice.reducer;

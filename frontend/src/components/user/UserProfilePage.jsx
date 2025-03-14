@@ -6,12 +6,7 @@ import CommmonModal from '../../common/ui_components/CommonModal'
 
 const UserProfilePage = () => {
 
-  const { getUserByIdApiCall, openEditProfile, setOpenEditProfile, updateUserByIdApiCall } = AuthHooks()
-
-  useEffect(() => {
-    getUserByIdApiCall(localStorage.getItem('userId'))
-  }, [localStorage.getItem('userId')])
-
+  const { openEditProfile, setOpenEditProfile, updateUserByIdApiCall } = AuthHooks()
 
   const userData = useSelector((state) => state.auth.userDetail)
 

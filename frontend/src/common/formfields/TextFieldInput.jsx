@@ -29,10 +29,6 @@ function TextFieldInput(props) {
 
     const open = Boolean(anchorEl);
 
-    const handlePopoverOpen = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-
     const handlePopoverClose = () => {
         setAnchorEl(null);
     };
@@ -81,7 +77,6 @@ function TextFieldInput(props) {
             {props.floatingLabel}
         </span>
     ]
-
 
     return (
         <div style={props.customStyles} className={`${props.srchCls ? props.srchCls : ''} `}>
