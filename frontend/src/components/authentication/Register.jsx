@@ -65,7 +65,7 @@ const Register = (props) => {
               render={({ field: { onChange, value }, fieldState: { error } }) => {
                 return (
                   <PhoneInputField
-                    defaultCountry={'us'}
+                    defaultCountry={'in'}
                     placeholder={'*Enter Phone no'}
                     label={'*Enter Phone Number'}
                     containerClass={'w-full'}
