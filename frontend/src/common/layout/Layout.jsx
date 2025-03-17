@@ -3,13 +3,14 @@ import { Outlet } from 'react-router';
 import Footer from './Footer';
 import Header from './Header';
 import { AuthHooks } from '../../containers/authentication/hooks';
+import SnackBarComponent from '../ui_components/SnackBarComponent';
 
 const Layout = () => {
 
     const { getUserByIdApiCall } = AuthHooks()
 
     useEffect(() => {
-        getUserByIdApiCall(localStorage.getItem('userId'))
+        localStorage.getItem('userId') && getUserByIdApiCall(localStorage.getItem('userId'))
     }, [localStorage.getItem('userId')])
 
     return (
@@ -17,6 +18,7 @@ const Layout = () => {
             <Header />
             <Outlet />
             <Footer />
+            <SnackBarComponent/>
         </React.Fragment>
     );
 };

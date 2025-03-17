@@ -48,10 +48,10 @@ const Header = () => {
 
 
     return (
-        <div className='bg-blue-800 h-10 w-full flex justify-between items-center px-[5%]'>
+        <div className='bg-blue-800 h-16 w-full flex justify-between items-center px-[5%]'>
             <img src="logo" alt="logo" className='cursor-pointer' onClick={() => navigate('/')} />
             <div className='flex justify-center items-center'>
-                <p className={`font-medium text-white text-xs leading-5 capitalize tracking-[0.15px] cursor-pointer`}>{"Help | Contact"}</p>
+                <p className={`font-medium text-white text-base leading-5 capitalize tracking-[0.15px] cursor-pointer`}>{"Help | Contact"}</p>
                 <div className={`flex items-center`}>
                     <div className={`border-l mx-5 border-solid border-orange-600 h-6`}></div>
                     <ShoppingCartIcon className='cursor-pointer' onClick={() => handleOpen()}/>
@@ -61,12 +61,12 @@ const Header = () => {
                         <div className={`relative`}>
                             <div className={`flex items-center justify-center gap-4 w-32 cursor-pointer `} onClick={() => setOpenDetails(!openDetails)}>
                                 <AccountCircleIcon />
-                                <p className={`font-medium text-white text-xs leading-5 cursor-pointer tracking-[0.15px] flex gap-2`}>{"Profile"}</p>
+                                <p className={`font-medium text-white text-base leading-5 cursor-pointer tracking-[0.15px] flex gap-2`}>{"Profile"}</p>
                                 <KeyboardArrowUpIcon className={openDetails === true ? null : `rotate-180`} />
                             </div>
                             {openDetails === true ?
                                 <ClickAwayListener onClickAway={() => setOpenDetails(false)}>
-                                    <div className={`bg-white shadow-md w-32 rounded-b absolute top-8 z-20`}>
+                                    <div className={`bg-white shadow-md w-32 rounded-b absolute top-11 z-20`}>
                                         <div className={`h-fit overflow-hidden hover:overflow-y-auto`}>
                                             {userProfileArr.map((item, idx) =>
                                                 <div
@@ -82,7 +82,7 @@ const Header = () => {
                                                             >
                                                                 <ListItemButton className='!px-2 gap-2 !w-32'>
                                                                     {item?.logo}
-                                                                    <p className='text-black text-sm'>{item?.name}</p>
+                                                                    <p className='text-black text-base'>{item?.name}</p>
                                                                 </ListItemButton>
                                                             </Link>
 

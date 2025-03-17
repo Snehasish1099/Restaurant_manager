@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import { doGetApiCall, doPostApiCall, doPutApiCall } from "../../utils/ApiConfig";
 import { useDispatch } from "react-redux";
 import { allUsersReducer, userDetailsReducer } from "./authReducer";
+import { snackbarOpen } from "../snackbarReducerSlice";
 
 export const AuthHooks = () => {
 
@@ -10,12 +11,6 @@ export const AuthHooks = () => {
 
     const [name, setName] = useState('')
     const [password, setPassword] = useState('')
-
-    const [loginError, setLoginError] = useState({
-        code: "",
-        error: false,
-        message: ""
-    })
 
     const navigate = useNavigate();
 
@@ -42,8 +37,10 @@ export const AuthHooks = () => {
         }
         let res = await doPostApiCall(data)
         if (res?.status === 201) {
+            dispatch(snackbarOpen({ alertType: 'success', message: "Registration successful, please Login." }))
             navigate('/login')
         } else {
+            dispatch(snackbarOpen({ alertType: 'error', message: "Registration failed, please try again later or use different credentials" }))
             console.log("# Registration failed")
         }
     }
@@ -64,13 +61,10 @@ export const AuthHooks = () => {
             localStorage.setItem('token', res?.token)
             localStorage.setItem('userId', res?.userId)
             getUserByIdApiCall(res?.userId)
+            dispatch(snackbarOpen({ alertType: 'success', message: "Login Successful" }))
             navigate(`/user_profile/${res?.userId}`)
         } else {
-            setLoginError({
-                code: "",
-                error: true,
-                message: "Login Failed"
-            })
+            dispatch(snackbarOpen({ alertType: 'error', message: "Login Failed, please try again." }))
         }
     }
 
@@ -124,16 +118,16 @@ export const AuthHooks = () => {
         if (res?.status === 200) {
             // getUserByIdApiCall(res?.data?.id)
             dispatch(userDetailsReducer(res?.data))
+            dispatch(snackbarOpen({ alertType: 'success', message: "Details updated syccessfully" }))
             setOpenEditProfile(false)
         } else {
-            
+            dispatch(snackbarOpen({ alertType: 'error', message: "Details update failed" }))
         }
     }
 
     return {
         handleName,
         handlePassword,
-        loginError,
         Login,
         // logoutApiCall,
         RegistrationApiCall,

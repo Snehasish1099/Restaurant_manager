@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { menuGetReducer, orderGetReducer, restaurantGetReducer, reviewGetReducer, singleMenuItemReducer, singleOrderGetReducer, singleRestaurantReducer } from './reducerSlice'
 import { useLocation, useParams } from 'react-router'
 import { useState } from 'react'
+import _ from "lodash";
 
 export const LandingPageHooks = () => {
     const dispatch = useDispatch()
@@ -13,6 +14,16 @@ export const LandingPageHooks = () => {
     const [writeReview, setWriteReview] = useState(false)
     const handleReview = () => {
         setWriteReview(!writeReview)
+    }
+
+    const [searchString, setSearchString] = useState("")
+
+    const debounceSearch = _.debounce((data) => {
+        setSearchString(data)
+    }, 500)
+
+    const handleSearchChange = (e) => {
+        debounceSearch(e.target.value)
     }
 
     //------------------------------------------- Restaurants --------------------------------------------
@@ -101,9 +112,17 @@ export const LandingPageHooks = () => {
      * @description - Gets all the menu items available
      */
     const getMenuApiCall = async () => {
-        let data = {
-            url: `${process.env.REACT_APP_BASE_URL}/menu/`,
+        let data;
+        if (searchString) {
+            data = {
+                url: `${process.env.REACT_APP_BASE_URL}/menu/?search=${searchString}`,
+            }
+        } else {
+            data = {
+                url: `${process.env.REACT_APP_BASE_URL}/menu/`,
+            }
         }
+
         let res = await doGetApiCall(data)
         if (res?.status === 200) {
             dispatch(menuGetReducer(res?.data))
@@ -239,6 +258,8 @@ export const LandingPageHooks = () => {
 
         getMenuApiCall,
         getMenuByIdApiCall,
+        handleSearchChange,
+        searchString,
 
         getOrdersApiCall,
         getSingleOrdersApiCall,

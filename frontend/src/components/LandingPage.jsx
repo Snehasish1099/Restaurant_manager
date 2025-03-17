@@ -6,19 +6,27 @@ import LandingRestaurantPage from './LandingRestaurantPage'
 import ContactUs from './ContactUs'
 
 const LandingPage = () => {
-  const { getRestaurantsApiCall, getMenuApiCall } = LandingPageHooks()
+  const { getRestaurantsApiCall, getMenuApiCall, handleSearchChange,
+    searchString, getOrdersApiCall } = LandingPageHooks()
 
   useEffect(() => {
     getRestaurantsApiCall()
     getMenuApiCall()
+  }, [searchString])
+
+  useEffect(() => {
+    getOrdersApiCall()
   }, [])
+
 
   return (
     <div>
-      <Banner/>
-      <LandingMenuItems/>
-      <LandingRestaurantPage/>
-      <ContactUs/>
+      <Banner
+        handleChange={handleSearchChange}
+      />
+      <LandingMenuItems />
+      <LandingRestaurantPage />
+      <ContactUs />
     </div>
   )
 }
