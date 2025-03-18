@@ -14,6 +14,4 @@ class OrderItemInline(admin.TabularInline):  # or admin.StackedInline
 class OrderAdmin(admin.ModelAdmin):
     list_display = ('id', 'customer', 'total_price', 'created_at')
     search_fields = ('customer__username',)
-    list_filter = ('created_at',)
     inlines = [OrderItemInline]  # Show Order Items within Order
-    ordering = ('-created_at',)
