@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import ButtonField from '../formfields/ButtonField'
 import RatingField from '../formfields/RatingField'
 import CommonCard from '../CommonCard'
@@ -9,23 +9,19 @@ import CustomerReview from './CustomerReview'
 import RatingReviewForm from './RatingReviewForm'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import { useSelector } from 'react-redux'
+import { setCustomer, setAddress } from '../../containers/orderSlice';
 
 const CommonDetailsPage = (props) => {
 
     const navigate = useNavigate()
 
-    const [count, setCount] = useState(0)
-    const increaseCount = () => {
-        setCount(count + 1)
-    }
-    const deccreaseCount = () => {
-        if (count > 0)
-            setCount(count - 1)
-    }
-
     useEffect(() => {
         props.getReviewApiCall()
     }, [])
+
+    const orderData = useSelector((state) => state.order)
+    console.log(orderData, "# orderData")
 
     return (
         <div className={``}>
@@ -90,14 +86,14 @@ const CommonDetailsPage = (props) => {
                         {!props.isRestaurant &&
                             <div className='flex justify-between'>
                                 <div className='flex items-center gap-4 border w-fit p-2'>
-                                    <RemoveCircleOutlineIcon className='cursor-pointer' onClick={() => deccreaseCount()} />
-                                    <div>{count}</div>
-                                    <AddCircleOutlineIcon className='cursor-pointer' onClick={() => increaseCount()} />
+                                    <RemoveCircleOutlineIcon className='cursor-pointer' onClick={() => props.decreaseCount()} />
+                                    <div>{props.count}</div>
+                                    <AddCircleOutlineIcon className='cursor-pointer' onClick={() => props.increaseCount()} />
                                 </div>
 
                                 <ButtonField
                                     variant={'outlined'}
-                                    onClick={props.addToCartClick}
+                                    onClick={props.handleAddToCart}
                                     buttonName={"Add to Cart"}
                                     buttonextracls={`px-2 py-2 text-white ${props.loading === true && 'bg-grey-300'} bg-orange-600 text-sm hover:bg-blue-400 hover:text-black`}
                                     loading={props.loading}

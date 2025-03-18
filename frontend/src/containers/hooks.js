@@ -4,6 +4,7 @@ import { menuGetReducer, orderGetReducer, restaurantGetReducer, reviewGetReducer
 import { useLocation, useParams } from 'react-router'
 import { useState } from 'react'
 import _ from "lodash";
+import { addItem } from './orderSlice'
 
 export const LandingPageHooks = () => {
     const dispatch = useDispatch()
@@ -25,6 +26,23 @@ export const LandingPageHooks = () => {
     const handleSearchChange = (e) => {
         debounceSearch(e.target.value)
     }
+
+    //-----------------------------------Functions for storing data for order-------------------------------
+    const [count, setCount] = useState(1);
+
+    const increaseCount = () => setCount(count + 1);
+    const decreaseCount = () => {
+        if (count > 1) setCount(count - 1);
+    };
+
+    const handleAddToCart = () => {
+        const payload = {
+            item_id: params?.id,
+            quantity: count
+        };
+
+        dispatch(addItem(payload));
+    };
 
     //------------------------------------------- Restaurants --------------------------------------------
 
@@ -149,15 +167,18 @@ export const LandingPageHooks = () => {
 
     // ------------------------------------------- Orders ---------------------------------------------
 
+    /**
+     * @method POST
+     * @description - Create new orders
+     */
     const createOrderApiCall = async (formData) => {
         let data = {
-            url: `${process.env.REACT_APP_BASE_URL}/restaurants/`,
+            url: `${process.env.REACT_APP_BASE_URL}/orders/`,
             bodyData: {
-                items: formData?.items,
-                total_price: formData?.total_price,
                 customer: localStorage.getItem('userId'),
-                delivery_address: formData?.address,
-                status: "pending"
+                delivery_address: formData?.delivery_address,
+                items: formData?.items,     //  in form of array with objects { item_id: number, quantity: number }
+                total_price: formData?.total_price,
             }
         }
         let res = await doPostApiCall(data)
@@ -165,7 +186,7 @@ export const LandingPageHooks = () => {
         if (res?.status === 201) {
             getOrdersApiCall()
         } else {
-            
+
         }
     }
 
@@ -261,6 +282,10 @@ export const LandingPageHooks = () => {
         handleSearchChange,
         searchString,
 
+        increaseCount,
+        decreaseCount,
+        count,
+        handleAddToCart,
         getOrdersApiCall,
         getSingleOrdersApiCall,
         createOrderApiCall,

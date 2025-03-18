@@ -7,6 +7,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import LogoutIcon from '@mui/icons-material/Logout';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import CommonDrawer from '../ui_components/CommonDrawer';
+import CartComponent from '../../components/orders/CartComponent';
 
 const Header = () => {
 
@@ -117,7 +118,7 @@ const Header = () => {
                         onClose={handleClose}
                         title="Add to Cart"
                     >
-                        <p>{'Content for cart'}</p>
+                        <CartComponent/>
                     </CommonDrawer>
                 </div>
             </div>

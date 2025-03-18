@@ -71,32 +71,27 @@ class OrderItemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = OrderItem
-        fields = ['id', 'item_id', 'item_name', 'item_price', 'quantity']
+        fields = '__all__'
 
 class OrderSerializer(serializers.ModelSerializer):
-    customer = serializers.CharField(write_only=True)
-    address = serializers.CharField(write_only=True)
+    customer = serializers.CharField()
+    delivery_address = serializers.CharField()
     items = OrderItemSerializer(many=True)
 
     class Meta:
         model = Order
-        fields = ['id', 'customer', 'address', 'items', 'total_price', 'created_at']
+        fields = '__all__'
         
     def create(self, validated_data):
         items_data = validated_data.pop('items')
         customer_name = validated_data.pop('customer')
-        address = validated_data.pop('address')
+        delivery_address = validated_data.pop('delivery_address')
 
         # Get or create user based on customer name
         user, _ = User.objects.get_or_create(username=customer_name)
-        profile, _ = Profile.objects.get_or_create(user=user, defaults={'address': address})
+        profile, _ = Profile.objects.get_or_create(user=user)
         
-        # If address is updated, save it
-        if profile.address != address:
-            profile.address = address
-            profile.save()
-        
-        order = Order.objects.create(customer=profile, address=address, **validated_data)
+        order = Order.objects.create(customer=profile, delivery_address=delivery_address, **validated_data)
 
         total_price = 0
         for item_data in items_data:
