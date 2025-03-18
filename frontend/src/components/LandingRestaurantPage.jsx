@@ -6,14 +6,21 @@ import CustomCarousal from '../common/CustomCarousal'
 // import chicken_tandoori from '../images/chicken_tandoori.jpeg'
 // import fried_rice from '../images/fried_rice.jpeg'
 import { useNavigate } from 'react-router'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import NoContentPage from '../common/layout/NoContentPage'
+import { snackbarOpen } from "../containers/snackbarReducerSlice"
 
 const LandingRestaurantPage = () => {
 
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const restaurantData = useSelector(((state) => state?.dataReducer?.restaurant))
+
+  const visitorNotLoggedIn = () => {
+    dispatch(snackbarOpen({ alertType: 'warning', message: "Please Login to access the website" }));
+    navigate('/login')
+  }
 
   return (
     <div className='p-4'>
@@ -33,7 +40,7 @@ const LandingRestaurantPage = () => {
                 ratingValue={restau?.rating ? restau?.rating : 4.5}
                 ratingPrecision={0.1}
                 ratingSize={"small"}
-                cardOnClick={() => navigate(`/restaurant_details/${restau?.id}`)}
+                cardOnClick={() => localStorage?.getItem('token') ? navigate(`/restaurant_details/${restau?.id}`) : visitorNotLoggedIn()}
               />
             </div>)
 

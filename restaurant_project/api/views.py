@@ -1,18 +1,17 @@
+import django_filters
 from django.contrib.auth.models import User
-from rest_framework import generics, viewsets, status, serializers
+from rest_framework import generics, viewsets, status, serializers, filters
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
-from django.db.models import Avg
-
 from .models import MenuItem, Order, Restaurant, Review
 from .serializers import (
     MenuItemSerializer, OrderSerializer, 
     RestaurantSerializer, ProfileSerializer, ReviewSerializer
 )
-
+from .filters import MenuItemFilter, RestaurantFilter
 
 class StandardResponseMixin:
     def format_response(self, data, message="Success", status_code=status.HTTP_200_OK, error=False):
@@ -38,6 +37,10 @@ class StandardResponseMixin:
         instance = self.get_object()
         serializer = self.get_serializer(instance)
         return self.format_response(serializer.data, "Data available.")
+    
+    def create(self, request, *args, **kwargs):
+        response = super().create(request, *args, **kwargs)
+        return self.format_response(response.data, "Data created successfully.", status.HTTP_201_CREATED)
 
     def update(self, request, *args, **kwargs):
         response = super().update(request, *args, **kwargs)
@@ -96,25 +99,53 @@ class UserDetailView(StandardResponseMixin, generics.RetrieveUpdateDestroyAPIVie
 class MenuView(StandardResponseMixin, viewsets.ModelViewSet):
     queryset = MenuItem.objects.all()
     serializer_class = MenuItemSerializer
-    permission_classes = [AllowAny]
+    filter_backends = [django_filters.rest_framework.DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    
+    filterset_class = MenuItemFilter
+    
+    search_fields = ['name', 'description']  
+    ordering_fields = ['name', 'price']  
+    ordering = ['name']
+    
+    def get_permissions(self):
+        if self.request.method in ['GET', 'HEAD', 'OPTIONS']:
+            return [AllowAny()]  
+        return [IsAuthenticated()] 
 
 
 class RestaurantView(StandardResponseMixin, viewsets.ModelViewSet):
     queryset = Restaurant.objects.all()
     serializer_class = RestaurantSerializer
-    permission_classes = [AllowAny]
-
+    filter_backends = [filters.SearchFilter, django_filters.rest_framework.DjangoFilterBackend]
+    
+    filterset_class = RestaurantFilter
+    search_fields = ['name', 'address']
+    
+    def get_permissions(self):
+        if self.request.method in ['GET', 'HEAD', 'OPTIONS']:
+            return [AllowAny()]  
+        return [IsAuthenticated()] 
 
 class OrderView(StandardResponseMixin, viewsets.ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     permission_classes = [IsAuthenticated]
 
-# @login_required
+    def get_queryset(self):
+        return Order.objects.filter(customer=self.request.user.id)
+
+    def perform_create(self, serializer):
+        serializer.save(customer=self.request.user.id)
+    
+
 class ReviewView(StandardResponseMixin, viewsets.ModelViewSet):
     queryset = Review.objects.all().select_related('user', 'restaurant', 'menu_item')
     serializer_class = ReviewSerializer
-    permission_classes = [IsAuthenticated]
+    
+    def get_permissions(self):
+        if self.request.method in ['GET', 'HEAD', 'OPTIONS']:
+            return [AllowAny()]  
+        return [IsAuthenticated()] 
 
     def perform_create(self, serializer):
         if self.request.user and self.request.user.is_authenticated:

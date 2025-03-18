@@ -3,7 +3,7 @@ import foodbanner from '../images/FoodBanner.png'
 import TextFieldInput from '../common/formfields/TextFieldInput'
 import { SearchOutlined } from '@mui/icons-material'
 
-const Banner = () => {
+const Banner = (props) => {
 
   return (
     <div className='flex justify-center items-center bg-[#343434] relative'>
@@ -14,7 +14,7 @@ const Banner = () => {
           // fullWidth={true}
           startAdornment={<SearchOutlined/>}
           textnewclass={'bg-white w-[20em]'}
-          handleChange={(e) => console.log(e.target.value)}
+          handleChange={props.handleChange}
         />
       </div>
     </div>

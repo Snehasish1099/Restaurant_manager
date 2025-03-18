@@ -70,8 +70,6 @@ const LoginPage = (props) => {
                         loading={props.loading}
                         disabled={props.loading === true ? true : false}
                     />
-                    {/* For showing the error message if login isnt't successful  */}
-                    {props?.loginError?.error === true && <p className={`text-red-5 text-sm text-center`}>{props?.loginError?.message}</p>}
 
                     <p className='text-black text-xs'>{"Don't have an account?"}&nbsp;<span onClick={() => navigate('/register')} className='text-blue-600 cursor-pointer underline'>{"Register"}</span></p>
                 </div>
