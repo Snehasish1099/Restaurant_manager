@@ -41,7 +41,6 @@ export const AuthHooks = () => {
             navigate('/login')
         } else {
             dispatch(snackbarOpen({ alertType: 'error', message: "Registration failed, please try again later or use different credentials" }))
-            console.log("# Registration failed")
         }
     }
 

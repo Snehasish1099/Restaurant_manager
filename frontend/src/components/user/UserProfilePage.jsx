@@ -3,10 +3,17 @@ import { useSelector } from 'react-redux'
 import { AuthHooks } from '../../containers/authentication/hooks'
 import EditUserForm from './EditUserForm'
 import CommmonModal from '../../common/ui_components/CommonModal'
+import { LandingPageHooks } from '../../containers/hooks'
 
 const UserProfilePage = () => {
 
   const { openEditProfile, setOpenEditProfile, updateUserByIdApiCall } = AuthHooks()
+  const { getOrdersApiCall } = LandingPageHooks()
+
+  useEffect(() => {
+    getOrdersApiCall()
+  }, [])
+
 
   const userData = useSelector((state) => state.auth.userDetail)
 
@@ -61,7 +68,7 @@ const UserProfilePage = () => {
         {/* Main Content */}
         <div className="w-3/4 bg-white shadow rounded-lg p-6 ml-6">
           <h2 className="text-xl font-semibold">{activeTab}</h2>
-          
+
         </div>
       </div>
 
@@ -73,7 +80,7 @@ const UserProfilePage = () => {
           title={"Edit User Profile"}
           titleCls={'!font-semibold'}
         >
-          <EditUserForm 
+          <EditUserForm
             HandleCloseForm={() => setOpenEditProfile(false)}
             userData={userData}
             updateUserByIdApiCall={updateUserByIdApiCall}

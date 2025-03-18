@@ -68,13 +68,18 @@ class OrderItemSerializer(serializers.ModelSerializer):
     item_id = serializers.IntegerField(write_only=True)
     item_name = serializers.CharField(source='menu_item.name', read_only=True)
     item_price = serializers.DecimalField(source='menu_item.price', max_digits=10, decimal_places=2, read_only=True)
-
+    quantity = serializers.IntegerField()
+    
     class Meta:
         model = OrderItem
         fields = '__all__'
+        extra_kwargs = {
+            'menu_item': {'required': False},  # Ignore direct validation
+            'order': {'required': False}  # Ignore direct validation
+        }
 
 class OrderSerializer(serializers.ModelSerializer):
-    customer = serializers.CharField()
+    customer = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
     delivery_address = serializers.CharField()
     items = OrderItemSerializer(many=True)
 
@@ -84,14 +89,18 @@ class OrderSerializer(serializers.ModelSerializer):
         
     def create(self, validated_data):
         items_data = validated_data.pop('items')
-        customer_name = validated_data.pop('customer')
+        customer_id = validated_data.pop('customer')
         delivery_address = validated_data.pop('delivery_address')
 
         # Get or create user based on customer name
-        user, _ = User.objects.get_or_create(username=customer_name)
-        profile, _ = Profile.objects.get_or_create(user=user)
+        customer = User.objects.get(id=customer_id)
+        profile, _ = Profile.objects.get_or_create(user=customer, defaults={'address': delivery_address})
         
-        order = Order.objects.create(customer=profile, delivery_address=delivery_address, **validated_data)
+        order = Order.objects.create(
+            customer=customer,
+            delivery_address=delivery_address,
+            total_price=0
+        )
 
         total_price = 0
         for item_data in items_data:

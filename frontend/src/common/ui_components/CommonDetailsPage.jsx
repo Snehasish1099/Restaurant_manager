@@ -9,8 +9,6 @@ import CustomerReview from './CustomerReview'
 import RatingReviewForm from './RatingReviewForm'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import { useSelector } from 'react-redux'
-import { setCustomer, setAddress } from '../../containers/orderSlice';
 
 const CommonDetailsPage = (props) => {
 
@@ -19,9 +17,6 @@ const CommonDetailsPage = (props) => {
     useEffect(() => {
         props.getReviewApiCall()
     }, [])
-
-    const orderData = useSelector((state) => state.order)
-    console.log(orderData, "# orderData")
 
     return (
         <div className={``}>

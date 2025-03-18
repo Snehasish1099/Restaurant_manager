@@ -1,10 +1,11 @@
 import { doGetApiCall, doPostApiCall, doPutApiCall } from '../utils/ApiConfig'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { menuGetReducer, orderGetReducer, restaurantGetReducer, reviewGetReducer, singleMenuItemReducer, singleOrderGetReducer, singleRestaurantReducer } from './reducerSlice'
 import { useLocation, useParams } from 'react-router'
 import { useState } from 'react'
 import _ from "lodash";
-import { addItem } from './orderSlice'
+import { addItem, clearOrder } from './orderSlice'
+import { snackbarOpen } from './snackbarReducerSlice'
 
 export const LandingPageHooks = () => {
     const dispatch = useDispatch()
@@ -35,14 +36,28 @@ export const LandingPageHooks = () => {
         if (count > 1) setCount(count - 1);
     };
 
+    const foodDetails = useSelector((state) => state?.dataReducer?.menuItem)
+
     const handleAddToCart = () => {
         const payload = {
             item_id: params?.id,
+            item_name: foodDetails?.name,
+            item_image: foodDetails?.image,
+            item_price: foodDetails?.price,
             quantity: count
         };
 
         dispatch(addItem(payload));
     };
+
+    const orderData = useSelector((state) => state.order)
+
+    const totalPrice = orderData?.items?.reduce((total, item) => total + parseFloat(item.item_price) * item.quantity,
+        0
+    );
+
+    const userData = useSelector((state) => state.auth.userDetail)
+
 
     //------------------------------------------- Restaurants --------------------------------------------
 
@@ -171,22 +186,25 @@ export const LandingPageHooks = () => {
      * @method POST
      * @description - Create new orders
      */
-    const createOrderApiCall = async (formData) => {
+    const createOrderApiCall = async () => {
         let data = {
             url: `${process.env.REACT_APP_BASE_URL}/orders/`,
             bodyData: {
-                customer: localStorage.getItem('userId'),
-                delivery_address: formData?.delivery_address,
-                items: formData?.items,     //  in form of array with objects { item_id: number, quantity: number }
-                total_price: formData?.total_price,
+                customer: parseInt(localStorage.getItem('userId')),
+                delivery_address: orderData?.address !== "" ? orderData?.address : userData?.address,
+                items: orderData?.items?.map((item) => {        //  in form of array with objects { item_id: number, quantity: number }
+                    return { item_id: item?.item_id, quantity: item?.quantity }
+                }),
+                total_price: totalPrice,
             }
         }
         let res = await doPostApiCall(data)
-        console.log(res, "# post order res")
         if (res?.status === 201) {
             getOrdersApiCall()
+            dispatch(clearOrder())
+            dispatch(snackbarOpen({ alertType: 'success', message: "Your order has been placed successfully" }))
         } else {
-
+            dispatch(snackbarOpen({ alertType: 'error', message: "Error while placing order, please try after some time" }))
         }
     }
 
@@ -249,8 +267,9 @@ export const LandingPageHooks = () => {
         if (res?.status === 201) {
             getReviewApiCall()
             setWriteReview(false)
+            dispatch(snackbarOpen({ alertType: 'success', message: "Review posted successfully" }))
         } else {
-
+            dispatch(snackbarOpen({ alertType: 'error', message: "Something went wrong while adding review, please try again." }))
         }
     }
 
@@ -286,6 +305,7 @@ export const LandingPageHooks = () => {
         decreaseCount,
         count,
         handleAddToCart,
+        totalPrice,
         getOrdersApiCall,
         getSingleOrdersApiCall,
         createOrderApiCall,

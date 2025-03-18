@@ -8,7 +8,7 @@ const CommonDrawer = ({ open, onClose, title, children, anchor = 'right' }) => {
             open={open}
             onClose={onClose}
         >
-            <Box sx={{ width: 300, p: 2 }}>
+            <Box sx={{ width: 500, p: 2 }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
                     <Typography variant="h6">{title}</Typography>
                     <IconButton onClick={onClose}><CloseIcon /></IconButton>

@@ -132,10 +132,10 @@ class OrderView(StandardResponseMixin, viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Order.objects.filter(customer=self.request.user)
+        return Order.objects.filter(customer=self.request.user.id)
 
     def perform_create(self, serializer):
-        serializer.save(customer=self.request.user)
+        serializer.save(customer=self.request.user.id)
     
 
 class ReviewView(StandardResponseMixin, viewsets.ModelViewSet):
