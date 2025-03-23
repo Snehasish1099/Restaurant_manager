@@ -5,6 +5,7 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import TextFieldInput from '../../common/formfields/TextFieldInput';
 import ButtonField from '../../common/formfields/ButtonField'
+import logo from '../../images/Logo.jpg'
 
 const LoginPage = (props) => {
     const navigate = useNavigate();
@@ -17,7 +18,7 @@ const LoginPage = (props) => {
         <div className={`bg-white flex items-center justify-center w-full`}>
             <div className={`p-4 border rounded-lg shadow-md`} style={{ width: '40%', marginTop: '8%' }}>
                 <div className={`flex items-center flex-col justify-between gap-5 w-full`}>
-                    <img src={""} alt='logo' onClick={() => navigate('/')} className={`cursor-pointer h-14 w-28`} />
+                    <img src={logo} alt='logo' onClick={() => navigate('/')} className={`cursor-pointer w-28`} />
                     <div className={`flex flex-col gap-1`}>
                         <p className='text-black text-xl'>{"Welcome Back"}</p>
                     </div>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router'
-import { ClickAwayListener, List, ListItem, ListItemButton, ListItemIcon } from '@mui/material';
+import { ClickAwayListener, List, ListItem, ListItemButton } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 // import { AuthHooks } from '../../containers/authentication/hooks'
@@ -8,6 +8,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import CommonDrawer from '../ui_components/CommonDrawer';
 import CartComponent from '../../components/orders/CartComponent';
+import logo from '../../images/Logo.jpg'
 
 const Header = () => {
 
@@ -50,7 +51,7 @@ const Header = () => {
 
     return (
         <div className='bg-blue-800 h-16 w-full flex justify-between items-center px-[5%]'>
-            <img src="logo" alt="logo" className='cursor-pointer' onClick={() => navigate('/')} />
+            <img src={logo} alt="logo" className='cursor-pointer ' onClick={() => navigate('/')} height={75} width={75} />
             <div className='flex justify-center items-center'>
                 <p className={`font-medium text-white text-base leading-5 capitalize tracking-[0.15px] cursor-pointer`}>{"Help | Contact"}</p>
                 <div className={`flex items-center`}>
