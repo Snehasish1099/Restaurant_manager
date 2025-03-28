@@ -1,13 +1,49 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { LandingPageHooks } from '../../containers/hooks'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import ButtonField from '../../common/formfields/ButtonField'
+import { addItem, removeItem } from '../../containers/orderSlice'
 
 const CartComponent = () => {
 
     const { createOrderApiCall, totalPrice } = LandingPageHooks()
+    const dispatch = useDispatch()
 
     const orderData = useSelector((state) => state.order)
+
+    const [quantities, setQuantities] = useState(
+        orderData.items.reduce((acc, item) => {
+            acc[item.item_id] = item.quantity;
+            return acc;
+        }, {})
+    );
+
+    const increaseCount = (item) => {
+        const newCount = (quantities[item.item_id] || 1) + 1;
+        setQuantities((prev) => ({ ...prev, [item.item_id]: newCount }));
+
+        // Dispatch updated item to Redux store
+        dispatch(addItem({ ...item, quantity: newCount }));
+    };
+
+    const decreaseCount = (item) => {
+        if (quantities[item.item_id] > 1) {
+            const newCount = quantities[item.item_id] - 1;
+            setQuantities((prev) => ({ ...prev, [item.item_id]: newCount }));
+
+            // Dispatch updated item to Redux store
+            dispatch(addItem({ ...item, quantity: newCount }));
+        } else {
+            // Remove item if quantity becomes 0
+            dispatch(removeItem(item.item_id));
+            setQuantities((prev) => {
+                const newState = { ...prev };
+                delete newState[item.item_id];
+                return newState;
+            });
+        }
+    };
+
 
     return (
         <div>
@@ -18,6 +54,20 @@ const CartComponent = () => {
                         <img src={data?.item_image} alt="img" height={150} width={150} />
                         <p className='text-sm font-medium'>Quantity: {data?.quantity}</p>
                         <p className='text-base font-semibold'>Total Price: {`${data?.quantity} x ${data?.item_price} = Rs. ${data?.quantity * data?.item_price}`}</p>
+                        <div className="flex gap-2">
+                            <button 
+                                className='px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-700'
+                                onClick={() => increaseCount(data)}
+                            >
+                                +
+                            </button>
+                            <button 
+                                className='px-3 py-1 bg-red-500 text-white rounded hover:bg-red-700'
+                                onClick={() => decreaseCount(data)}
+                            >
+                                -
+                            </button>
+                        </div>
                         <div className='border'></div>
                     </div>
                 )

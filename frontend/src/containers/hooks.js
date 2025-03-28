@@ -182,6 +182,11 @@ export const LandingPageHooks = () => {
 
     // ------------------------------------------- Orders ---------------------------------------------
 
+    const [open, setOpen] = useState(false);
+
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
     /**
      * @method POST
      * @description - Create new orders
@@ -201,6 +206,7 @@ export const LandingPageHooks = () => {
         let res = await doPostApiCall(data)
         if (res?.status === 201) {
             getOrdersApiCall()
+            handleClose()
             dispatch(clearOrder())
             dispatch(snackbarOpen({ alertType: 'success', message: "Your order has been placed successfully" }))
         } else {
@@ -301,6 +307,9 @@ export const LandingPageHooks = () => {
         handleSearchChange,
         searchString,
 
+        open,
+        handleOpen,
+        handleClose,
         increaseCount,
         decreaseCount,
         count,

@@ -3,19 +3,19 @@ import { Link, useLocation, useNavigate } from 'react-router'
 import { ClickAwayListener, List, ListItem, ListItemButton } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-// import { AuthHooks } from '../../containers/authentication/hooks'
 import LogoutIcon from '@mui/icons-material/Logout';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import CommonDrawer from '../ui_components/CommonDrawer';
 import CartComponent from '../../components/orders/CartComponent';
 import logo from '../../images/Logo.jpg'
+import { LandingPageHooks } from '../../containers/hooks';
 
 const Header = () => {
 
     const navigate = useNavigate()
     const routeLocation = useLocation()
 
-    // const { logoutApiCall } = AuthHooks()
+    const { open, handleOpen, handleClose, } = LandingPageHooks()
 
     const [openDetails, setOpenDetails] = useState(false)
 
@@ -42,11 +42,6 @@ const Header = () => {
         fontSize: '14px',
         lineHeight: '15px',
     }
-
-    const [open, setOpen] = useState(false);
-
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
 
     // Scroll to section when URL hash changes
     useEffect(() => {
