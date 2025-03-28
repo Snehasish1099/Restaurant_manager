@@ -25,7 +25,7 @@ const ContactUS = (props) => {
     };
 
     return (
-        <div className={`flex text-white border`}>
+        <div className={`flex text-white border`} id="contact">
 
             {/* contact left  */}
             <div className={`w-1/3 bg-[#000] flex flex-col justify-evenly items-start gap-4 px-[2%]`}>

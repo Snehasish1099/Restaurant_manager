@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router'
 import { ClickAwayListener, List, ListItem, ListItemButton } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -48,15 +48,26 @@ const Header = () => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
+    // Scroll to section when URL hash changes
+    useEffect(() => {
+        if (routeLocation?.hash) {
+            let sectionId = routeLocation?.hash.substring(1); // Removes # from the url path
+            let section = document.getElementById(sectionId);
+
+            if (section) {
+                section.scrollIntoView({ behavior: "smooth" });
+            }
+        }
+    }, [routeLocation]);
 
     return (
         <div className='bg-blue-800 h-16 w-full flex justify-between items-center px-[5%]'>
             <img src={logo} alt="logo" className='cursor-pointer ' onClick={() => navigate('/')} height={75} width={75} />
             <div className='flex justify-center items-center'>
-                <p className={`font-medium text-white text-base leading-5 capitalize tracking-[0.15px] cursor-pointer`}>{"Help | Contact"}</p>
+                <p className={`font-medium text-white text-base leading-5 capitalize tracking-[0.15px] cursor-pointer hover:underline`} onClick={() => navigate("/#contact")}>{"Help | Contact"}</p>
                 <div className={`flex items-center`}>
                     <div className={`border-l mx-5 border-solid border-orange-600 h-6`}></div>
-                    <ShoppingCartIcon className='cursor-pointer' onClick={() => handleOpen()}/>
+                    <ShoppingCartIcon className='cursor-pointer' onClick={() => handleOpen()} />
                     <div className={`border-l mx-5 border-solid border-orange-600 h-6`}></div>
 
                     {localStorage.getItem('token') ?
@@ -119,7 +130,7 @@ const Header = () => {
                         onClose={handleClose}
                         title="Add to Cart"
                     >
-                        <CartComponent/>
+                        <CartComponent />
                     </CommonDrawer>
                 </div>
             </div>
