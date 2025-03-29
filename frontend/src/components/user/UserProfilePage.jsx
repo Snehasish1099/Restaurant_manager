@@ -4,18 +4,24 @@ import { AuthHooks } from '../../containers/authentication/hooks'
 import EditUserForm from './EditUserForm'
 import CommmonModal from '../../common/ui_components/CommonModal'
 import { LandingPageHooks } from '../../containers/hooks'
+import UserReviewPage from './UserReviewPage'
+// import { useLocation } from 'react-router'
+import random_bg from '../../images/random_bg.jpg'
 
 const UserProfilePage = () => {
 
   const { openEditProfile, setOpenEditProfile, updateUserByIdApiCall } = AuthHooks()
-  const { getOrdersApiCall } = LandingPageHooks()
+  const { getOrdersApiCall, getReviewApiCall } = LandingPageHooks()
 
   useEffect(() => {
     getOrdersApiCall()
+    getReviewApiCall()
   }, [])
 
+  // const locationPath = useLocation()
 
   const userData = useSelector((state) => state.auth.userDetail)
+  const userReviewData = useSelector((state) => state?.dataReducer?.reviews)?.filter((item) => item?.user?.id === parseInt(localStorage?.getItem("userId")))
 
   const [activeTab, setActiveTab] = useState("Reviews");
 
@@ -30,19 +36,19 @@ const UserProfilePage = () => {
     <div className="bg-gray-100 min-h-screen !w-full flex flex-col justify-start items-center">
       {/* Header */}
       <div className="relative w-11/12">
-        <img src={userData?.coverPhoto} alt="Cover" className="w-full h-48 object-cover" />
+        <img src={random_bg} alt="Cover" className="w-full h-48 object-cover" />
         <div className="absolute top-4 left-4 flex items-center space-x-4">
           <div className="w-20 h-20 rounded-full bg-blue-800 flex items-center justify-center text-white text-3xl font-bold">
             {userData?.username?.[0]}
           </div>
-          <h2 className="text-black text-xl font-semibold">{userData?.username}</h2>
+          <h2 className="text-white text-xl font-semibold">{userData?.username}</h2>
         </div>
-        <div className="absolute top-4 right-4 bg-orange-500 text-white px-4 py-2 rounded-full cursor-pointer hover:bg-orange-300 hover:text-black" onClick={() => setOpenEditProfile(true)}>
+        <div className="absolute top-4 right-4 bg-orange-500 text-white px-4 py-2 rounded-full cursor-pointer hover:bg-orange-300 hover:text-white" onClick={() => setOpenEditProfile(true)}>
           {"Edit Profile"}
         </div>
-        <div className="absolute bottom-4 left-4 flex space-x-6 text-black">
-          <div>{userData?.reviews || 0} Reviews</div>
-          <div>{userData?.photos || 0} Photos</div>
+        <div className="absolute bottom-4 left-4 flex space-x-6 text-white">
+          <div>{userReviewData?.length || 0} Reviews</div>
+          <div>{0} Photos</div>
         </div>
       </div>
 
@@ -68,6 +74,13 @@ const UserProfilePage = () => {
         {/* Main Content */}
         <div className="w-3/4 bg-white shadow rounded-lg p-6 ml-6">
           <h2 className="text-xl font-semibold">{activeTab}</h2>
+          {activeTab === 'Reviews' ?
+            <UserReviewPage 
+              reviewData={userReviewData}
+            />
+            :
+            null
+          }
 
         </div>
       </div>

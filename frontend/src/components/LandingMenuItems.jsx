@@ -101,7 +101,7 @@ const LandingMenuItems = () => {
           {menuData?.map((foodName, idx) =>
             <div key={idx}>
               <CommonCard
-                extracls={'!w-60 !h-[25rem]'}
+                extracls={'!w-60 !h-[20rem]'}
                 noContentCls={'h-fit'}
                 itemName={foodName?.name}
                 img={foodName?.image}

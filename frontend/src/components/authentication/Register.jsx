@@ -7,6 +7,8 @@ import { Icon, IconButton, InputAdornment } from '@mui/material';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { useNavigate } from 'react-router';
+import logo from '../../images/Logo.jpg'
+
 
 const Register = (props) => {
 
@@ -18,7 +20,7 @@ const Register = (props) => {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data, '# data');
+    // console.log(data, '# data');
     props.RegistrationApiCall(data)
   };
 
@@ -29,7 +31,7 @@ const Register = (props) => {
   return (
     <div className='w-full flex justify-center items-center'>
       <div className="w-1/3 flex flex-col justify-center items-center bg-white p-5 rounded-lg shadow-md mt-5">
-        <img src={""} alt='logo' onClick={() => navigate('/')} className={`cursor-pointer h-14 w-28`} />
+        <img src={logo} alt='logo' onClick={() => navigate('/')} className={`cursor-pointer h-14 w-28`} />
         <h2 className="text-2xl font-bold my-4 text-center">{"Register"}</h2>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 my-4">

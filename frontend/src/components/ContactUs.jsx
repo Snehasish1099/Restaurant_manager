@@ -25,10 +25,10 @@ const ContactUS = (props) => {
     };
 
     return (
-        <div className={`flex text-white border`}>
+        <div className={`flex text-white border`} id="contact">
 
             {/* contact left  */}
-            <div className={`w-1/3 bg-[#000] flex flex-col justify-center items-start gap-4 px-[2%]`}>
+            <div className={`w-1/3 bg-[#000] flex flex-col justify-evenly items-start gap-4 px-[2%]`}>
                 {/* contact header  */}
                 <div className={`mb-4`}>
                     <p className={`text-white font-bold text-4xl`}>Contact Us</p>

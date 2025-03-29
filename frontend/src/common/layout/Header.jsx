@@ -1,20 +1,21 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router'
-import { ClickAwayListener, List, ListItem, ListItemButton, ListItemIcon } from '@mui/material';
+import { ClickAwayListener, List, ListItem, ListItemButton } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-// import { AuthHooks } from '../../containers/authentication/hooks'
 import LogoutIcon from '@mui/icons-material/Logout';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import CommonDrawer from '../ui_components/CommonDrawer';
 import CartComponent from '../../components/orders/CartComponent';
+import logo from '../../images/Logo.jpg'
+import { LandingPageHooks } from '../../containers/hooks';
 
 const Header = () => {
 
     const navigate = useNavigate()
     const routeLocation = useLocation()
 
-    // const { logoutApiCall } = AuthHooks()
+    const { open, handleOpen, handleClose, } = LandingPageHooks()
 
     const [openDetails, setOpenDetails] = useState(false)
 
@@ -42,20 +43,26 @@ const Header = () => {
         lineHeight: '15px',
     }
 
-    const [open, setOpen] = useState(false);
+    // Scroll to section when URL hash changes
+    useEffect(() => {
+        if (routeLocation?.hash) {
+            let sectionId = routeLocation?.hash.substring(1); // Removes # from the url path
+            let section = document.getElementById(sectionId);
 
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-
+            if (section) {
+                section.scrollIntoView({ behavior: "smooth" });
+            }
+        }
+    }, [routeLocation]);
 
     return (
-        <div className='bg-blue-800 h-16 w-full flex justify-between items-center px-[5%]'>
-            <img src="logo" alt="logo" className='cursor-pointer' onClick={() => navigate('/')} />
+        <div className='bg-blue-800 h-16 w-full flex justify-between items-center px-[3%]'>
+            <img src={logo} alt="logo" className='cursor-pointer ' onClick={() => navigate('/')} height={75} width={75} />
             <div className='flex justify-center items-center'>
-                <p className={`font-medium text-white text-base leading-5 capitalize tracking-[0.15px] cursor-pointer`}>{"Help | Contact"}</p>
+                <p className={`font-medium text-white text-base leading-5 capitalize tracking-[0.15px] cursor-pointer hover:underline`} onClick={() => navigate("/#contact")}>{"Help | Contact"}</p>
                 <div className={`flex items-center`}>
                     <div className={`border-l mx-5 border-solid border-orange-600 h-6`}></div>
-                    <ShoppingCartIcon className='cursor-pointer' onClick={() => handleOpen()}/>
+                    <ShoppingCartIcon className='cursor-pointer' onClick={() => handleOpen()} />
                     <div className={`border-l mx-5 border-solid border-orange-600 h-6`}></div>
 
                     {localStorage.getItem('token') ?
@@ -118,7 +125,7 @@ const Header = () => {
                         onClose={handleClose}
                         title="Add to Cart"
                     >
-                        <CartComponent/>
+                        <CartComponent />
                     </CommonDrawer>
                 </div>
             </div>

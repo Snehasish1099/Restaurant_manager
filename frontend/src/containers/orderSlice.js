@@ -20,6 +20,9 @@ const orderSlice = createSlice({
                 state.items.push(action.payload);
             }
         },
+        removeItem: (state, action) => {
+            state.items = state.items.filter(item => item.item_id !== action.payload);
+        },
         clearOrder: (state) => {
             state.customer = '';
             state.address = '';
@@ -28,5 +31,5 @@ const orderSlice = createSlice({
     }
 });
 
-export const { setAddress, addItem, clearOrder } = orderSlice.actions;
+export const { setAddress, addItem, clearOrder, removeItem } = orderSlice.actions;
 export default orderSlice.reducer;

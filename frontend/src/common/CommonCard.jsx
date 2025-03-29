@@ -12,7 +12,7 @@ const CommonCard = (props) => {
 
             {props.img ? (
                 <div className='flex justify-center items-center bg-[#343434] mb-5'>
-                    <img src={props.img} alt='img' className='w-fit' />
+                    <img src={props.img} alt='img' className='w-fit h-36' />
                 </div>
             )
                 :
