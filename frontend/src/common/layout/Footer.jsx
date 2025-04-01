@@ -26,13 +26,13 @@ const Footer = () => {
             <p className="text-sm">Phone: (123) 456-7890</p>
             <div className="flex space-x-4 mt-4">
               <a href="#" className="text-gray-400 hover:text-white">
-                <i className="fab fa-facebook-f"></i>
+                
               </a>
               <a href="#" className="text-gray-400 hover:text-white">
-                <i className="fab fa-twitter"></i>
+                
               </a>
               <a href="#" className="text-gray-400 hover:text-white">
-                <i className="fab fa-instagram"></i>
+                
               </a>
             </div>
           </div>
