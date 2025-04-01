@@ -94,7 +94,7 @@ const LandingMenuItems = () => {
   const menuData = useSelector(((state) => state?.dataReducer?.menu))
 
   return (
-    <div className='p-4'>
+    <div id="menu" className='p-4'>
       <p className='text-2xl font-bold my-3'>{'Food Items that are available for you'}</p>
       {menuData && menuData.length > 0 ?
         <CustomCarousal>
