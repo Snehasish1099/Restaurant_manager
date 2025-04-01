@@ -95,13 +95,13 @@ const LandingMenuItems = () => {
 
   return (
     <div className='p-4'>
-      <p className='text-2xl font-bold my-3'>{'Food Items that are available for you'}</p>
+      <p className='text-xl md:text-2xl font-bold my-3'>{'Food Items that are available for you'}</p>
       {menuData && menuData.length > 0 ?
         <CustomCarousal>
           {menuData?.map((foodName, idx) =>
             <div key={idx}>
               <CommonCard
-                extracls={'!w-60 !h-[20rem]'}
+                extracls={'md:!w-60 md:!h-[20rem]'}
                 noContentCls={'h-fit'}
                 itemName={foodName?.name}
                 img={foodName?.image}
