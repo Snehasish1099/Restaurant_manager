@@ -16,10 +16,11 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
             <ul className="text-sm">
-              <li><a href="/about" className="hover:underline">About Us</a></li>
-              <li><a href="/menu" className="hover:underline">Menu</a></li>
-              <li><a href="/contact" className="hover:underline">Contact</a></li>
-              <li><a href="/faq" className="hover:underline">FAQ</a></li>
+              <li><a href="/" className="hover:underline">About Us</a></li>
+              <li><a href="/#restaurant" className="hover:underline capitalize">restaurant</a></li>
+              <li><a href="/#menu" className="hover:underline">Menu</a></li>
+              <li><a href="/#contact" className="hover:underline">Contact</a></li>
+              <li><a href="/" className="hover:underline">FAQ</a></li>
             </ul>
           </div>
           <div>
@@ -30,13 +31,13 @@ const Footer = () => {
             {/* Remove the code from line no. 29 to 39 */}
             <div className="flex space-x-4 mt-4">
               <a href="#" className="text-gray-400 hover:text-white">
-                <i className="fab fa-facebook-f"></i>
+                
               </a>
               <a href="#" className="text-gray-400 hover:text-white">
-                <i className="fab fa-twitter"></i>
+                
               </a>
               <a href="#" className="text-gray-400 hover:text-white">
-                <i className="fab fa-instagram"></i>
+                
               </a>
             </div>
 

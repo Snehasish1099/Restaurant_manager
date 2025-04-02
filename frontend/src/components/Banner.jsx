@@ -3,10 +3,10 @@ import TextFieldInput from '../common/formfields/TextFieldInput'
 import { SearchOutlined } from '@mui/icons-material'
 import CustomImageCarousal from '../common/ui_components/CustomImageCarousal'
 import foodbanner from '../images/FoodBanner.png'
-import foodBanner2 from '../images/foodBanner2.jpg'
-import foodBanner5 from '../images/foodBanner5.jpg'
-import foodBanner3 from '../images/foodBanner3.jpeg'
-import foodBanner4 from '../images/foodBanner4.jpeg'
+import foodBanner2 from '../images/foodbanner 2.jpg'
+import foodBanner5 from '../images/foodbanner 5.jpg'
+import foodBanner3 from '../images/foodbanner3.jpg'
+import foodBanner4 from '../images/foodbanner4.jpg'
 
 const Banner = (props) => {
   const images = [

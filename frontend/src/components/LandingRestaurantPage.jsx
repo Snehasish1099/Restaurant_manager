@@ -23,7 +23,7 @@ const LandingRestaurantPage = () => {
   }
 
   return (
-    <div className='p-4'>
+    <div id="restaurant" className='p-4'>
       <p className='text-xl md:text-2xl font-bold my-3'>{`Some restaurants recommended for you`}</p>
       {restaurantData && restaurantData.length > 0 ?
         <CustomCarousal>
