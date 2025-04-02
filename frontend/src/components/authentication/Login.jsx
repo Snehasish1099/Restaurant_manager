@@ -15,9 +15,9 @@ const LoginPage = (props) => {
     const [showPasswoard, setShowPasswoard] = useState(true)
 
     return (
-        <div className={`bg-white flex items-center justify-center w-full`}>
-            <div className={`p-4 border rounded-lg shadow-md`} style={{ width: '40%', marginTop: '8%' }}>
-                <div className={`flex items-center flex-col justify-between gap-5 w-full`}>
+        <div className={`bg-white flex items-center justify-center w-full min-h-screen`}>
+            <div className={`p-4 border rounded-lg shadow-md w-full max-w-lg`}>
+                <div className={`w-full flex items-center flex-col justify-between gap-5`}>
                     <img src={logo} alt='logo' onClick={() => navigate('/')} className={`cursor-pointer w-28`} />
                     <div className={`flex flex-col gap-1`}>
                         <p className='text-black text-xl'>{"Welcome Back"}</p>
@@ -26,20 +26,20 @@ const LoginPage = (props) => {
                 {/* input fields */}
                 <div className={`w-full flex flex-col items-center ${props.message ? 'gap-4' : 'gap-6'} mt-6`}>
                     <ClickAwayListener onClickAway={() => setMailFocused(false)}>
-                        <div onClick={() => setMailFocused(true)} className='w-1/2'>
+                        <div onClick={() => setMailFocused(true)} className='w-full sm:w-1/2'>
                             <TextFieldInput
                                 handleChange={(e) => props.setName(e)}
                                 floatingLabel={"Username"}
                                 focused={mailFocused}
                                 onKeyPress={props.Login}
                                 textnewclass={`w-full `}
-                                // placeholder={`${text.enter} Useername`}
+                            // placeholder={`${text.enter} Useername`}
                             />
                             {props.message && <p className={`error-message text-red-600 text-xs p-0 m-0`}>*{props.message}</p>}
                         </div>
                     </ClickAwayListener>
                     <ClickAwayListener onClickAway={() => setPasswordFocused(false)}>
-                        <div onClick={() => setPasswordFocused(true)} className='w-1/2'>
+                        <div onClick={() => setPasswordFocused(true)} className='w-full sm:w-1/2'>
                             <TextFieldInput
                                 typePassword={showPasswoard}
                                 handleChange={(e) => props.setPassword(e)}
@@ -63,14 +63,16 @@ const LoginPage = (props) => {
                         </div>
                     </ClickAwayListener>
 
-                    <ButtonField
-                        variant={'outlined'}
-                        onClick={() => props.Login()}
-                        buttonName={"Login"}
-                        buttonextracls={`px-2 py-2 text-white ${props.loading === true && 'bg-grey-300'} bg-orange-600 text-sm w-1/2 hover:bg-blue-400 hover:text-black`}
-                        loading={props.loading}
-                        disabled={props.loading === true ? true : false}
-                    />
+                    <div className='w-full sm:w-1/2'>
+                        <ButtonField
+                            variant={'outlined'}
+                            onClick={() => props.Login()}
+                            buttonName={"Login"}
+                            buttonextracls={`w-full !px-2 !py-2 !text-white ${props.loading === true && 'bg-grey-300'} !bg-orange-600 !text-sm hover:!bg-blue-400 hover:!text-black`}
+                            loading={props.loading}
+                            disabled={props.loading === true ? true : false}
+                        />
+                    </div>
 
                     <p className='text-black text-xs'>{"Don't have an account?"}&nbsp;<span onClick={() => navigate('/register')} className='text-blue-600 cursor-pointer underline'>{"Register"}</span></p>
                 </div>
