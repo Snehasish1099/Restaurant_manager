@@ -7,13 +7,13 @@ import { Tooltip } from '@mui/material'
 
 const UserReviewPage = (props) => {
     return (
-        <div className={`flex flex-col justify-between items-center p-4 bg-white border border-gray-300 shadow-sm rounded-md my-5`}>
+        <div className={`flex flex-col justify-between items-center p-1 bg-white border border-gray-300 shadow-sm rounded-md my-5`}>
             {props.reviewData && props.reviewData?.length > 0 ?
                 <div className={`w-full`}>
                     {props.reviewData?.map((item) =>
                         <div className={`flex flex-col gap-4 border-b-[1px] border-b-[#EBEBEB] p-4 w-full h-full`}>
                             {/*Header section */}
-                            <div className={`w-full flex justify-between`}>
+                            <div className={`w-full flex flex-col sm:flex-row justify-between`}>
                                 <div className={`flex items-center justify-start gap-3`}>
                                     <div className="w-16 h-16 rounded-full border flex items-center justify-center">
                                         <img
