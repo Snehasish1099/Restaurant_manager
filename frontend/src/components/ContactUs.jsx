@@ -25,13 +25,13 @@ const ContactUS = (props) => {
     };
 
     return (
-        <div className={`flex text-white border`} id="contact">
+        <div className={`flex flex-col-reverse md:flex-row text-white border`} id="contact">
 
             {/* contact left  */}
-            <div className={`w-1/3 bg-[#000] flex flex-col justify-evenly items-start gap-4 px-[2%]`}>
+            <div className={`w-full md:w-1/3 bg-[#000] flex flex-col justify-evenly items-start gap-4 py-[2%] md:py-0 px-[2%]`}>
                 {/* contact header  */}
                 <div className={`mb-4`}>
-                    <p className={`text-white font-bold text-4xl`}>Contact Us</p>
+                    <p className={`text-white font-bold text-xl md:text-2xl lg:text-4xl`}>Contact Us</p>
                     <p className={`text-[#bbb] font-semibold text-base`}>Want To Get In Touch? We'd Love To Hear From You...</p>
                 </div>
                 {/* contact body  */}
@@ -70,9 +70,9 @@ const ContactUS = (props) => {
             </div>
 
             {/* contact right  */}
-            <div className={`w-2/3 flex flex-col gap-5 justify-center items-start px-[4%] mb-[3%]`}>
-                <p className='text-black font-bold text-4xl pt-[4%]'>Get In Touch</p>
-                <form className={`flex flex-col w-2/3 gap-5`} onSubmit={handleSubmit(onSubmit)}>
+            <div className={`w-full md:w-2/3 flex flex-col gap-5 justify-center items-start px-[4%] mb-[3%]`}>
+                <p className='text-black font-bold text-xl md:text-2xl lg:text-4xl pt-[4%]'>{"Get In Touch"}</p>
+                <form className={`flex flex-col w-full md:w-2/3 gap-5`} onSubmit={handleSubmit(onSubmit)}>
                     <Controller
                         name={"name"}
                         control={control}

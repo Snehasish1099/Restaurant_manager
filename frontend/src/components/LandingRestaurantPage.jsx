@@ -23,14 +23,14 @@ const LandingRestaurantPage = () => {
   }
 
   return (
-    <div className='p-4'>
-      <p className='text-2xl font-bold my-3'>{`Some restaurants recommended for you`}</p>
+    <div id="restaurant" className='p-4'>
+      <p className='text-xl md:text-2xl font-bold my-3'>{`Some restaurants recommended for you`}</p>
       {restaurantData && restaurantData.length > 0 ?
         <CustomCarousal>
           {restaurantData?.map((restau, idx) =>
             <div key={idx}>
               <CommonCard
-                extracls={'!w-60 !h-[25rem]'}
+                extracls={'!h-[18rem] md:!w-60 md:!h-[22rem]'}
                 // img={restau?.imgage}
                 noContentImg={restau?.image ? false : true}
                 itemName={restau?.name}
