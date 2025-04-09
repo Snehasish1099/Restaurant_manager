@@ -11,17 +11,15 @@ It is built using **Django REST Framework** for the backend and **React.js** for
 - 🧾 Manage restaurant profiles and customers
 - 📋 Add, update, and delete menu items
 - 🛒 Create and track orders
-- 🧑‍💻 Admin control for managing restaurant operations
+- 🧑‍💻 Admin control for managing restaurant operations (Django admin)
 - 🌐 Responsive and user-friendly frontend interface
 
 ---
 
 ## 🛠 Tech Stack
 
-- **Frontend:** React.js, Axios
+- **Frontend:** React.js, Tailwind Css, React-Hook-Form, Material UI
 - **Backend:** Django, Django REST Framework
-- **Database:** SQLite3
-- **Version Control:** Git + GitHub
 
 ---
 
@@ -31,7 +29,7 @@ It is built using **Django REST Framework** for the backend and **React.js** for
 
 Ensure you have these installed:
 
-- Python (3.8+)
+- Python (3.10+)
 - Node.js and npm
 - Git
 
