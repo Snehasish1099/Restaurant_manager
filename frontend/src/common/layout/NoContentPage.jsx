@@ -4,7 +4,7 @@ const NoContentPage = (props) => {
   return (
     <div className={`flex flex-col justify-center items-center ${props.noContentMainDiv}`}>
       {props.noContentImg && 
-        <img src={props.noContentImg} height={props.height} width={props.width} alt="noContent"/>
+        <img className="h-[8.5rem]" src={props.noContentImg} height={props.height} width={props.width} alt="noContent"/>
       }
 
       <div className="py-[2%]">

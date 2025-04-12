@@ -30,9 +30,10 @@ const LandingRestaurantPage = () => {
           {restaurantData?.map((restau, idx) =>
             <div key={idx}>
               <CommonCard
-                extracls={'!w-60 !h-[25rem]'}
-                // img={restau?.imgage}
+                extracls={'!w-60'}
+                img={restau?.image}
                 noContentImg={restau?.image ? false : true}
+                noContentMainDiv="!bg-[#E9E9E9] !mb-5"
                 itemName={restau?.name}
                 itemtext
                 text2={restau?.address}
