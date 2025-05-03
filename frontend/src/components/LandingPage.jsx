@@ -15,7 +15,7 @@ const LandingPage = () => {
   }, [searchString])
 
   useEffect(() => {
-    getOrdersApiCall()
+    localStorage.getItem('token') && getOrdersApiCall()
   }, [])
 
 
