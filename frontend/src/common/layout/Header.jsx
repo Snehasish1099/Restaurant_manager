@@ -59,9 +59,9 @@ const Header = () => {
         <div className='bg-gradient-to-r from-red-400 to-blue-400 h-16 w-full flex justify-between items-center px-[3%]'>
             <img src={logo} alt="logo" className='cursor-pointer ' onClick={() => navigate('/')} height={50} width={50} />
             <div className='flex justify-center items-center'>
-                <p className={`font-medium text-white text-base leading-5 capitalize tracking-[0.15px] cursor-pointer hover:underline`} onClick={() => navigate("/#contact")}>{"Help | Contact"}</p>
+                <p className={`hidden md:block font-medium text-white text-sm leading-5 capitalize tracking-[0.15px] cursor-pointer hover:underline`} onClick={() => navigate("/#contact")}>{"Help | Contact"}</p>
                 <div className={`flex items-center`}>
-                    <div className={`border-l mx-5 border-solid border-orange-600 h-6`}></div>
+                    <div className={`hidden md:block border-l mx-5 border-solid border-orange-600 h-6`}></div>
                     <ShoppingCartIcon className='cursor-pointer' onClick={() => handleOpen()} />
                     <div className={`border-l mx-5 border-solid border-orange-600 h-6`}></div>
 
@@ -69,7 +69,7 @@ const Header = () => {
                         <div className={`relative`}>
                             <div className={`flex items-center justify-center gap-4 w-32 cursor-pointer `} onClick={() => setOpenDetails(!openDetails)}>
                                 <AccountCircleIcon />
-                                <p className={`font-medium text-white text-base leading-5 cursor-pointer tracking-[0.15px] flex gap-2`}>{"Profile"}</p>
+                                <p className={`font-medium text-white text-sm leading-5 cursor-pointer tracking-[0.15px] flex gap-2`}>{"Profile"}</p>
                                 <KeyboardArrowUpIcon className={openDetails === true ? null : `rotate-180`} />
                             </div>
                             {openDetails === true ?
@@ -111,10 +111,10 @@ const Header = () => {
                         </div>
                         :
                         <div className='flex gap-4'>
-                            <div onClick={() => navigate('/register')} className={`font-medium text-white text-xs leading-5 cursor-pointer tracking-[0.15px] flex gap-2 hover:text-red-700`}>
+                            <div onClick={() => navigate('/register')} className={`font-medium text-white text-sm leading-5 cursor-pointer tracking-[0.15px] flex gap-2 hover:text-red-700`}>
                                 <p>{"Register"}</p>
                             </div>
-                            <div onClick={() => navigate('/login')} className={`font-medium text-white text-xs leading-5 cursor-pointer tracking-[0.15px] flex gap-2  hover:text-red-700`}>
+                            <div onClick={() => navigate('/login')} className={`font-medium text-white text-sm leading-5 cursor-pointer tracking-[0.15px] flex gap-2  hover:text-red-700`}>
                                 <p>{"Login"}</p>
                             </div>
                         </div>

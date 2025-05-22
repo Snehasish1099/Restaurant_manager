@@ -33,9 +33,9 @@ const UserProfilePage = () => {
   ];
 
   return (
-    <div className="bg-gray-100 min-h-screen !w-full flex flex-col justify-start items-center">
+    <div className="bg-gray-100 min-h-screen flex flex-col justify-start items-center">
       {/* Header */}
-      <div className="relative w-11/12">
+      <div className="relative w-[95%]">
         <img src={random_bg} alt="Cover" className="w-full h-48 object-cover" />
         <div className="absolute top-4 left-4 flex items-center space-x-4">
           <div className="w-20 h-20 rounded-full bg-blue-800 flex items-center justify-center text-white text-3xl font-bold">
@@ -52,9 +52,24 @@ const UserProfilePage = () => {
         </div>
       </div>
 
-      <div className="flex mt-6 w-11/12">
-        {/* Sidebar */}
-        <div className="w-1/4 bg-white shadow rounded-lg p-4">
+      {/* Navbar for Small Screens */}
+      <div className="md:hidden w-full bg-white shadow p-3 flex justify-around items-center overflow-scroll">
+        {menuItems.map((menu) =>
+          menu.items.map((item, idx) => (
+            <div
+              key={idx}
+              onClick={() => setActiveTab(item)}
+              className={`text-sm cursor-pointer px-3 py-2 ${activeTab === item ? "text-red-600 font-semibold border-b-2 border-red-600" : "text-gray-700"} hover:text-red-500`}
+            >
+              {item}
+            </div>
+          ))
+        )}
+      </div>
+
+      <div className="flex flex-col md:flex-row my-6 w-[95%] gap-6">
+        {/* Sidebar for Larger Screens */}
+        <div className="hidden md:block md:w-1/4 bg-white shadow rounded-lg p-4 h-fit">
           {menuItems.map((menu, index) => (
             <div key={index} className="my-4">
               <h2 className="text-black text-base font-semibold uppercase my-2">{menu.section}</h2>
@@ -72,12 +87,12 @@ const UserProfilePage = () => {
         </div>
 
         {/* Main Content */}
-        <div className="w-3/4 bg-white shadow rounded-lg p-6 ml-6">
+        <div className="md:w-3/4 bg-white shadow rounded-lg p-6 h-[70vh] overflow-y-auto">
           <h2 className="text-xl font-semibold">{activeTab}</h2>
           {activeTab === 'Reviews' ?
-            <UserReviewPage 
-              reviewData={userReviewData}
-            />
+              <UserReviewPage
+                reviewData={userReviewData}
+              />
             :
             null
           }
@@ -86,7 +101,7 @@ const UserProfilePage = () => {
       </div>
 
 
-      {openEditProfile === true &&
+      {openEditProfile &&
         <CommmonModal
           open={openEditProfile}
           handleClose={() => setOpenEditProfile(false)}

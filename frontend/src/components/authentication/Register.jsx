@@ -30,7 +30,7 @@ const Register = (props) => {
 
   return (
     <div className='w-full flex justify-center items-center'>
-      <div className="w-1/3 flex flex-col justify-center items-center bg-white p-5 rounded-lg shadow-md mt-5">
+      <div className="w-full max-w-lg flex flex-col justify-center items-center bg-white p-5 rounded-lg shadow-md mt-5">
         <img src={logo} alt='logo' onClick={() => navigate('/')} className={`cursor-pointer h-14 w-28`} />
         <h2 className="text-2xl font-bold my-4 text-center">{"Register"}</h2>
 
@@ -197,7 +197,7 @@ const Register = (props) => {
             type='submit'
             variant={'outlined'}
             buttonName={"Register"}
-            buttonextracls={`px-2 py-2 text-white ${props.loading === true && 'bg-grey-300'} bg-orange-600 text-sm w-full hover:bg-blue-400 hover:text-black`}
+            buttonextracls={`!px-2 !py-2 !text-white ${props.loading === true && 'bg-grey-300'} !bg-orange-600 !text-sm !w-full hover:!bg-blue-400 hover:!text-black`}
             loading={props.loading}
             disabled={props.loading === true ? true : false}
             onClick={handleSubmit(onSubmit)}
