@@ -19,6 +19,7 @@ const CommonCard = (props) => {
                 props.noContentImg ?
                     <div className={`${props.noContentCls} relative`}>
                         <NoContentPage
+                            noContentMainDiv={props.noContentMainDiv}
                             noContentImg={noImage}
                         />
                     </div>
