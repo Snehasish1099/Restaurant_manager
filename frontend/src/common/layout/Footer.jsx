@@ -11,6 +11,8 @@ const Footer = () => {
               We are dedicated to providing the best food delivery service. Our mission is to bring delicious meals to your doorstep.
             </p>
           </div>
+
+
           <div>
             <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
             <ul className="text-sm">
@@ -25,6 +27,8 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
             <p className="text-sm">Email: support@foodecommerce.com</p>
             <p className="text-sm">Phone: (123) 456-7890</p>
+
+            {/* Remove the code from line no. 29 to 39 */}
             <div className="flex space-x-4 mt-4">
               <a href="#" className="text-gray-400 hover:text-white">
                 
@@ -36,7 +40,9 @@ const Footer = () => {
                 
               </a>
             </div>
+
           </div>
+
         </div>
         <div className="text-center mt-8">
           <p className="text-sm">&copy; {new Date().getFullYear()} Food eCommerce. All rights reserved.</p>

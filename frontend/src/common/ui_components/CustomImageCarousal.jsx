@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const CustomCarousel = ({ images, autoPlay = true, interval = 3000 }) => {
+const CustomImageCarousal = ({ images, autoPlay = true, interval = 3000 }) => {
     const [currentIndex, setCurrentIndex] = useState(1); // Start from the first cloned image
     const [isTransitioning, setIsTransitioning] = useState(true);
 
@@ -39,7 +39,7 @@ const CustomCarousel = ({ images, autoPlay = true, interval = 3000 }) => {
     };
 
     return (
-        <div className="relative w-full h-[500px] overflow-hidden rounded-lg">
+        <div className="relative w-full h-[250px] md:h-[350px] lg:h-[500px] overflow-hidden rounded-lg">
             {/* Images Wrapper */}
             <div
                 className={`flex transition-transform duration-700 ease-in-out ${!isTransitioning ? "transition-none" : ""}`}
@@ -50,20 +50,20 @@ const CustomCarousel = ({ images, autoPlay = true, interval = 3000 }) => {
                         key={index}
                         src={image}
                         alt={`Slide ${index}`}
-                        className="w-full h-[500px] object-cover flex-shrink-0"
+                        className="w-full h-[250px] md:h-[350px] lg:h-[500px] object-cover flex-shrink-0"
                     />
                 ))}
             </div>
 
             {/* Navigation Buttons */}
             <button
-                className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-3 rounded-full shadow-md hover:bg-opacity-70"
+                className="hidden md:block absolute top-1/2 left-4 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-3 rounded-full shadow-md hover:bg-opacity-70"
                 onClick={goToPreviousSlide}
             >
                 ❮
             </button>
             <button
-                className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-3 rounded-full shadow-md hover:bg-opacity-70"
+                className="hidden md:block absolute top-1/2 right-4 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-3 rounded-full shadow-md hover:bg-opacity-70"
                 onClick={goToNextSlide}
             >
                 ❯
@@ -85,4 +85,4 @@ const CustomCarousel = ({ images, autoPlay = true, interval = 3000 }) => {
     );
 };
 
-export default CustomCarousel;
+export default CustomImageCarousal;

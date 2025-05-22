@@ -24,7 +24,7 @@ const LandingRestaurantPage = () => {
 
   return (
     <div id="restaurant" className='p-4'>
-      <p className='text-2xl font-bold my-3'>{`Some restaurants recommended for you`}</p>
+      <p className='text-xl md:text-2xl font-bold my-3'>{`Some restaurants recommended for you`}</p>
       {restaurantData && restaurantData.length > 0 ?
         <CustomCarousal>
           {restaurantData?.map((restau, idx) =>
