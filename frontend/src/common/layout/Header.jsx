@@ -56,8 +56,8 @@ const Header = () => {
     }, [routeLocation]);
 
     return (
-        <div className='bg-blue-800 h-16 w-full flex justify-between items-center px-[3%]'>
-            <img src={logo} alt="logo" className='cursor-pointer ' onClick={() => navigate('/')} height={75} width={75} />
+        <div className='bg-gradient-to-r from-red-400 to-blue-400 h-16 w-full flex justify-between items-center px-[3%]'>
+            <img src={logo} alt="logo" className='cursor-pointer ' onClick={() => navigate('/')} height={50} width={50} />
             <div className='flex justify-center items-center'>
                 <p className={`font-medium text-white text-base leading-5 capitalize tracking-[0.15px] cursor-pointer hover:underline`} onClick={() => navigate("/#contact")}>{"Help | Contact"}</p>
                 <div className={`flex items-center`}>
